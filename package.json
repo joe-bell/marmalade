@@ -26,14 +26,8 @@
     }
   },
   "lint-staged": {
-    "*.{json,html,css,md}": [
-      "npx prettier --write",
-      "git add"
-    ],
-    "*.{js,jsx,ts,tsx}": [
-      "npm run lint",
-      "git add"
-    ]
+    "*.{json,html,css,md}": "npx prettier --write",
+    "*.{js,jsx,ts,tsx}": "npm run lint"
   },
   "dependencies": {
     "glob": "^7.1.6",
