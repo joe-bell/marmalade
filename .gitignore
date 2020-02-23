@@ -1,0 +1,12 @@
+// Node
+node_modules
+
+// Next Builds
+.next
+out
+
+// Next Env (See types.d.ts)
+next-env.d.ts
+
+// Repo
+.idea
