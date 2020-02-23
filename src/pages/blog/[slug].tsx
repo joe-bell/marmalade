@@ -31,9 +31,11 @@ const BlogPost: React.FC<BlogPostProps> = props => {
         <div>
           <ReactMarkdown
             source={markdownBody}
-            // renderers={{
-            //   paragraph: props => <p className="bg-purple-200" {...props} />
-            // }}
+            renderers={{
+              /* eslint-disable react/display-name */
+              paragraph: props => <p className="bg-purple-200" {...props} />,
+              /* eslint-enable react/display-name */
+            }}
           />
         </div>
       </article>
