@@ -2,11 +2,13 @@
 
 # marmalade 🍊
 
-Another opinionated **JAM**stack static site starter, featuring:
+Another opinionated **JAM**stack starter with static optimization, featuring:
 
 - A **Design System** (custom built in [Styled Components](https://styled-components.com/) with themes)
 - **TypeScript**
 - **MDX** (extended to support front matter and custom layouts)
+
+**Powered by [Next.js](https://nextjs.org)**.
 
 ## Roadmap
 
