@@ -1,5 +1,5 @@
+import { ThemeSpace, ThemeColorValue, Theme } from "marmalade";
 import styled from "styled-components";
-import { ThemeSpace, ThemeColorValue, Theme } from "../themes/types";
 import { rem } from "../utils/rem";
 import { system } from "styled-system";
 

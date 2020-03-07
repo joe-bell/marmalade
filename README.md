@@ -2,7 +2,11 @@
 
 # marmalade 🍊
 
-Another opinionated **JAM**stack static site starter (powered by Next.js) 🍊.
+Another opinionated **JAM**stack static site starter, featuring:
+
+- A **Design System** (custom built in [Styled Components](https://styled-components.com/) with themes)
+- **TypeScript**
+- **MDX** (extended to support front matter and custom layouts)
 
 ## Roadmap
 
@@ -20,7 +24,9 @@ Another opinionated **JAM**stack static site starter (powered by Next.js) 🍊.
   - [ ] List
   - [ ] Code inline
   - [ ] Code block
-  - [ ] Map to React-Markdown
+- [ ] 🏗 Layouts
+  - [ ] Default
+  - [ ] Blog
 - [ ] 🖼 Image optimization.
 - [ ] ⚡️ Performance audits and optimization.
 - [ ] ♿️ Accessibility testing and optimization.
@@ -68,13 +74,6 @@ Another opinionated **JAM**stack static site starter (powered by Next.js) 🍊.
     <a href="https://chakra-ui.com/">Chakra-UI</a> is bound to the Styled System Theme Specification and Emotion, so unfortunately not an option for this project 💔
 </details>
 
-<details>
- <summary><b>Why don't you use <a href="https://mdxjs.com/">MDX</a>?</b></summary>
- Netlify CMS <a href="https://github.com/netlify/netlify-cms/issues/1776">doesn't support it</a> yet 😢
-</details>
-
 ## Acknowledgements
 
-- [**@kendallstrautman**](https://github.com/kendallstrautman) - [_"Bare-bones Next.js starter"_](https://github.com/kendallstrautman/nextjs-blog-starter)\
-   I really can't stress enough how valuable this project was to get the foundations set up, thank you Kendall.
 - [**@robertcoopercode**](https://github.com/robertcoopercode) - [_"Using ESLint and Prettier in a TypeScript Project"_](https://www.robertcooper.me/using-eslint-and-prettier-in-a-typescript-project)

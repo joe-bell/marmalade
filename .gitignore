@@ -7,6 +7,7 @@ out
 
 // Next Env (See types.d.ts)
 next-env.d.ts
+!config/types/next-env.d.ts
 
 // Repo
 .idea

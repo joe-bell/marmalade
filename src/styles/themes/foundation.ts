@@ -1,4 +1,4 @@
-import { ThemeBase, Theme } from "./types";
+import { ThemeBase, Theme } from "marmalade";
 
 const base: ThemeBase = {
   fontSize: 16,

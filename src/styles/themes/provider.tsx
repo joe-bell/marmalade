@@ -1,11 +1,10 @@
+import { Theme } from "marmalade";
 import * as React from "react";
 import {
   ThemeProvider as StyledThemeProvider,
   ThemeContext as StyledThemeContext,
   createGlobalStyle,
 } from "styled-components";
-
-import { Theme } from "./types";
 
 const themeTransitionClass = "is-transitioning-theme";
 const themeTransitionDuration = 250;

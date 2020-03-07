@@ -1,6 +1,6 @@
+import { ThemeSpace } from "marmalade";
 import styled from "styled-components";
 import { Box, BoxProps } from "./box";
-import { ThemeSpace } from "../themes/types";
 import { rem } from "../utils/rem";
 
 export type StackProps = {
