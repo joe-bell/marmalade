@@ -1,11 +1,48 @@
 declare module "marmalade" {
   // ===========================================================================
+  //   Starter Config
+  // ===========================================================================
+
+  type Meta = {
+    title: string;
+    emoji?: string;
+    description: string;
+    author: string;
+    avatar: string;
+    social?: {
+      twitter?: string;
+    };
+  };
+
+  type NavigationItem = {
+    title: string;
+    url: string;
+    external?: boolean;
+  };
+
+  export type Config = {
+    meta: Meta;
+    navigation: NavigationItem[];
+    initialTheme: InitialTheme;
+  };
+
+  export type InitialTheme = {
+    light: Theme;
+    dark?: Theme;
+  };
+
+  // ===========================================================================
   //   Layouts & FrontMatter
   // ===========================================================================
 
   export type FrontMatter = {
     title?: string;
     layout?: "default" | "blog";
+    date?: string;
+  };
+
+  export type FrontMatterWithPath = FrontMatter & {
+    path: string;
   };
 
   export type LayoutProps = {

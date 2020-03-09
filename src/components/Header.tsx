@@ -1,23 +1,25 @@
 import * as React from "react";
 import Link from "next/link";
+import { Box } from "../styles/components/box";
+import navigation from "../data/navigation.json";
+
+const { items } = navigation;
 
 const Header: React.FC = () => (
-  <header className="p-4 border-b border-green-700">
+  <Box as="header">
+    <Link href="/">Home</Link>
     <ul className="flex">
-      <li className="flex-1 lg:flex-none lg:mr-4">
-        <Link href="/">
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a className="block text-center">Overview</a>
-        </Link>
-      </li>
-      <li className="flex-1 lg:flex-none">
-        <Link href="/about">
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a className="block text-center">Activity</a>
-        </Link>
-      </li>
+      {items.map(item => (
+        <li key={item.title}>
+          {item.external ? (
+            <a href={item.url}>{item.title}</a>
+          ) : (
+            <Link href={item.url}>{item.title}</Link>
+          )}
+        </li>
+      ))}
     </ul>
-  </header>
+  </Box>
 );
 
 export default Header;

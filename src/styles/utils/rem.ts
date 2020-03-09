@@ -1,5 +1,5 @@
 import polishedRem from "polished/lib/helpers/rem";
-import { foundation } from "../themes/foundation";
+import foundation from "../themes/foundation";
 
 export const rem = (
   value: string | number,

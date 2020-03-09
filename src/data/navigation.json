@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "title": "About",
+      "url": "/about",
+      "external": false
+    },
+    {
+      "title": "Blog",
+      "url": "/blog",
+      "external": false
+    },
+    {
+      "title": "Twitter",
+      "url": "https://twitter.com/joebell_",
+      "external": true
+    },
+    {
+      "title": "GitHub",
+      "url": "https://github.com/joe-bell/",
+      "external": true
+    }
+  ]
+}

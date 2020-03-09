@@ -17,7 +17,7 @@ const blacks = {
   20: "#6E6E6E",
 };
 
-export const foundation: Theme = {
+const foundation: Theme = {
   base,
   borderStyle,
   borderWidth,
@@ -88,3 +88,5 @@ export const foundation: Theme = {
     dialog: 10000,
   },
 };
+
+export default foundation;

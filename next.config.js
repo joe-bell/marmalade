@@ -1,6 +1,5 @@
 const path = require("path");
 const withOffline = require("next-offline");
-const utils = require("./config/next/utils");
 
 const webpack = (config, { defaultLoaders }) => {
   config.module.rules.push({
@@ -15,11 +14,12 @@ const webpack = (config, { defaultLoaders }) => {
   return config;
 };
 
-const exportPathMap = async () =>
-  utils.withMdxRoutes({
-    "/": { page: "/" },
-    "/about": { page: "/about" },
-  });
+const exportPathMap = async (
+  defaultPathMap,
+  { dev, dir, outDir, distDir, buildId }
+) => {
+  return defaultPathMap;
+};
 
 module.exports = withOffline({
   pageExtensions: ["ts", "tsx", "md", "mdx"],
