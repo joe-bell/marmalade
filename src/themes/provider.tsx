@@ -1,10 +1,10 @@
-import { Theme } from "marmalade";
 import * as React from "react";
 import {
   ThemeProvider as StyledThemeProvider,
   ThemeContext as StyledThemeContext,
   createGlobalStyle,
 } from "styled-components";
+import * as Marmalade from "../types/marmalade";
 
 const themeTransitionClass = "is-transitioning-theme";
 const themeTransitionDuration = 250;
@@ -37,7 +37,7 @@ export const ThemeTransition = createGlobalStyle`
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const ThemeContext: React.Context<any> = StyledThemeContext;
-export const useTheme = (): Theme => React.useContext(ThemeContext);
+export const useTheme = (): Marmalade.Theme => React.useContext(ThemeContext);
 
 /**
  * Theme Provider
@@ -45,7 +45,7 @@ export const useTheme = (): Theme => React.useContext(ThemeContext);
  * See https://www.styled-components.com/docs/advanced#theming
  */
 export type ThemeProviderProps = {
-  theme: Theme;
+  theme: Marmalade.Theme;
   children?: React.ReactChild;
   hasTransition?: boolean;
 };
@@ -57,7 +57,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
 }) => {
   const initialTheme = React.useRef(true);
 
-  const handleChange = (themeObject: Theme) => {
+  const handleChange = (themeObject: Marmalade.Theme) => {
     if (hasTransition) {
       if (initialTheme.current) {
         initialTheme.current = false;

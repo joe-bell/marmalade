@@ -1,18 +1,26 @@
 import * as React from "react";
-import { LayoutDefault } from "../../layouts/layouts";
-import { blogPosts } from "../../data/blog-posts";
+import { NextPage } from "next";
 import Link from "next/link";
+import { LayoutDefault } from "../../layouts/layouts";
+import { blogPosts } from "../../../scripts";
+import * as Marmalade from "../../types/marmalade";
 
-const BlogIndex = () => (
+export async function getStaticProps() {
+  return { props: { posts: blogPosts } };
+}
+
+type BlogIndexProps = {
+  posts: Marmalade.FrontMatterWithPath[];
+};
+
+const BlogIndex: NextPage<BlogIndexProps> = ({ posts }) => (
   <LayoutDefault>
     <h1>Blog</h1>
     <ol reversed>
-      {blogPosts.map(blogPost => (
-        <li key={blogPost.title}>
-          <Link prefetch href={blogPost.path}>
-            {blogPost.title}
-          </Link>
-          <time dateTime={blogPost.date}>{blogPost.date}</time>
+      {posts.map(post => (
+        <li key={post.title}>
+          <Link href={post.path}>{post.title}</Link>
+          <time dateTime={post.date}>{post.date}</time>
         </li>
       ))}
     </ol>

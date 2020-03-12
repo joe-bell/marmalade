@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "alwaysStrict": true,
+    "checkJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
@@ -19,6 +20,6 @@
     "target": "esnext",
     "typeRoots": ["config/types", "src/types", "node_modules/@types"]
   },
-  "exclude": ["node_modules"],
+  "exclude": [".marmalade", ".next", "node_modules"],
   "include": ["**/*.ts", "**/*.tsx"]
 }

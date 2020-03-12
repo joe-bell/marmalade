@@ -1,14 +1,16 @@
-import { Config } from "marmalade";
-import foundation from "./src/styles/themes/foundation";
-
-const config: Config = {
+/**
+ * @type import('./src/types/marmalade').Config
+ */
+const config = {
   meta: {
-    title: "Marmalade",
-    emoji: "🍊",
-    description: "",
+    title: "Marmalade 🍊",
+    description: "Another opinionated JAMstack starter.",
     author: "Joe Bell",
+    url: "https://marmalade.joebell.co.uk",
     avatar: "",
     social: {
+      github: "joe-bell",
+      instagram: "joebell",
       twitter: "joebell_",
     },
   },
@@ -32,10 +34,6 @@ const config: Config = {
       external: true,
     },
   ],
-  initialTheme: {
-    light: foundation,
-    dark: foundation,
-  },
 };
 
-export default config;
+module.exports = config;

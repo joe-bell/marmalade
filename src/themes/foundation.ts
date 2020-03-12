@@ -1,6 +1,6 @@
-import { ThemeBase, Theme } from "marmalade";
+import * as Marmalade from "../types/marmalade";
 
-const base: ThemeBase = {
+const base: Marmalade.ThemeBase = {
   fontSize: 16,
   lineHeight: 20,
   space: 16,
@@ -17,7 +17,7 @@ const blacks = {
   20: "#6E6E6E",
 };
 
-const foundation: Theme = {
+export const foundationLight: Marmalade.Theme = {
   base,
   borderStyle,
   borderWidth,
@@ -88,5 +88,3 @@ const foundation: Theme = {
     dialog: 10000,
   },
 };
-
-export default foundation;

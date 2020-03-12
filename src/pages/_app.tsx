@@ -3,15 +3,13 @@
 import * as React from "react";
 import { MDXProvider } from "@mdx-js/react";
 import { AppProps } from "next/app";
-import config from "../../marmalade.config";
-import { ThemeProvider } from "../styles/themes/provider";
+import { ThemeProvider } from "../themes/provider";
+import { foundationLight } from "../themes/foundation";
 import { Global } from "../styles/global";
 import { Layouts } from "../layouts/layouts";
 
-const { initialTheme } = config;
-
 const MarmaladeApp = ({ Component, pageProps }: AppProps) => (
-  <ThemeProvider theme={initialTheme.light}>
+  <ThemeProvider theme={foundationLight}>
     <MDXProvider
       components={{
         wrapper: props => <Layouts {...props} />,

@@ -1,46 +1,54 @@
-import { LayoutProps } from "marmalade";
 import * as React from "react";
-import { Stack } from "../styles/components/stack";
-import Header from "../components/Header";
+import { Box } from "../components/box";
+import { Container } from "../components/container";
+import { Stack } from "../components/stack";
+import { Header } from "../components/header";
+import * as Marmalade from "../types/marmalade";
 
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 /* eslint-disable react/display-name */
 
-export const LayoutRoot: React.FC<LayoutProps> = props => (
+export const LayoutRoot: React.FC<Marmalade.LayoutProps> = props => (
   <>
     <Header />
-    {props.children}
+    <main>{props.children}</main>
   </>
 );
 
-export const LayoutDefault: React.FC<LayoutProps> = props => (
+export const LayoutDefault: React.FC<Marmalade.LayoutProps> = props => (
   <LayoutRoot>
-    <aside>
+    <Container as="aside">
       <p>Default Layout</p>
-    </aside>
-    <main>
+    </Container>
+    <Container>
       <Stack>{props.children}</Stack>
-    </main>
+    </Container>
   </LayoutRoot>
 );
 
-export const LayoutBlog: React.FC<LayoutProps> = props => (
+export const LayoutBlog: React.FC<Marmalade.LayoutProps> = props => (
   <LayoutRoot>
-    <aside>
+    <Container as="aside">
       <p>Blog Layout</p>
-    </aside>
-    <main>
-      <article>
-        {props.frontMatter && props.frontMatter.title && (
-          <h1>{props.frontMatter.title}</h1>
-        )}
+    </Container>
+    <article>
+      {props.frontMatter && props.frontMatter.title && (
+        <Container>
+          <Box as="h1">
+            <h1>{props.frontMatter.title}</h1>
+          </Box>
+        </Container>
+      )}
+      <Container>
         <Stack>{props.children}</Stack>
-      </article>
-    </main>
+      </Container>
+    </article>
   </LayoutRoot>
 );
 
-export const Layouts: React.FC<LayoutProps> = props => {
+// @TODO
+// Use Next.js dynamic imports to handle layout
+export const Layouts: React.FC<Marmalade.LayoutProps> = props => {
   if (!props.frontMatter || !props.frontMatter.layout) {
     return <LayoutDefault {...props} />;
   }

@@ -12,10 +12,12 @@ Another opinionated **JAM**stack starter with static optimization, featuring:
 
 ## Roadmap
 
+### Immediate
+
 - [x] ~~🎨 Theming Schema~~.
-- [x] ~~🔎 ESLint, Prettier and commit tools~~.
+- [x] ~~🏁 ESLint, Prettier and commit tools~~.
 - [ ] 🧱 Components
-  - [ ] Container
+  - [x] ~~Container~~
   - [ ] Text
   - [ ] Heading
   - [ ] Divider
@@ -27,23 +29,84 @@ Another opinionated **JAM**stack starter with static optimization, featuring:
   - [ ] Code inline
   - [ ] Code block
 - [ ] 🏗 Layouts
+  - [ ] Home (move the README).
   - [ ] Default
   - [ ] Blog
+  - [ ] Blog Posts (index/tags)
+  - [ ] Use dynamic imports in `Layouts`
+- [ ] 🔎 Scripts
+  - [ ] Get files
+  - [ ] Get files by latest.
+  - [ ] Get files by tag.
+  - [ ] Prettify the date.
+  - [ ] Pass through static files
+  - [ ] Generate RSS.
+  - [ ] Generate manifest.
 - [ ] 🖼 Image optimization.
+  - or at least a guide to setup with Netlify LFS?
 - [ ] ⚡️ Performance audits and optimization.
 - [ ] ♿️ Accessibility testing and optimization.
-- [ ] 🕸 Metadata and manifest generation.
+
+### Later
+
+- [ ] 💧 Mimic 11ty cascading data?
+- [ ] 🔍 Better Type checking of front matter (which could be solved by the next item)
+- [ ] 🔩 Use MDX Async API
+- [ ] 🐞 Types for theme dot notation (e.g. colors).
 - [ ] 🚇 Offline support.
+- [ ] ⚡️ Preact in production.
+- [ ] 📝 Netlify CMS.
+- [ ] 🎨 Extract Design System to separate project.
 
-### Todo
+## Usage
 
-- [ ] Types for theme dot notation (e.g. colors).
+### Installation
 
-### Ideas
+1. There are two options to choose from:
 
-- [ ] Preact in production.
-- [ ] Netlify CMS.
-- [ ] Extract Design System to separate project.
+   1. [Generate a new repo](https://github.com/joe-bell/marmalade/generate) from this template repo, **or…**
+   2. Clone or fork this template repo:
+      ```sh
+      git clone git@github.com:joe-bell/marmalade.git
+      ```
+
+2. Install dependencies:
+   ```sh
+   npm i
+   ```
+
+### Commands
+
+The following commands are available for use, prefixed with `npm run`:
+
+- `dev` - spins up a hot-reloading development environment.
+- `production` - builds the application for production and [exports to static HTML](https://nextjs.org/learn/excel/static-html-export/export-the-index-page).
+- `start` - runs the Next.js production server.
+- `clean` - flushes `node_modules` and build directories.
+
+## Configuration
+
+For now, basic application info can be configured in [`marmalade.config.js`](./marmalade.config.js).
+
+To configure the initial theme and components used to render MDX/Markdown, you'll need to customise the default [`_app.tsx`](./src/pages/_app.tsx) file.
+
+## Architecture
+
+- `src/`
+
+  - `pages/`
+
+    Supports `.md`, `.mdx`, `.tsx` format.
+
+- `scripts/`
+
+  Node scripts used by the application and Next.js to generate things like index pages.
+
+  These scripts are also available for use in `next.config.js` under `.marmalade`.
+
+  > Unfortunately, Next.js doesn't currently support it's config in `.ts`. To workaround this, scripts are compiled to `.js` in `.marmalade` before build time.
+  >
+  > It's a hacky solution but I can't think of a better one for now.
 
 ## Q&A
 

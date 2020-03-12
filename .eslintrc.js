@@ -22,7 +22,9 @@ module.exports = {
     "@typescript-eslint/prefer-interface": "off",
     "@typescript-eslint/no-empty-interface": "off",
     'jsx-a11y/label-has-for': 'off', // Deprecated - https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-for.md
+    // "jsx-a11y/anchor-is-valid": ["error", { "components": ["Link"], "specialLink": ["hrefLeft", "hrefRight"], "aspects": ["invalidHref", "preferButton"] }],
     "react/prop-types": "off",
+    "react/display-name": "off"
   },
   settings: {
     react: {

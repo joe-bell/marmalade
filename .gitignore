@@ -1,6 +1,8 @@
 // Node
 node_modules
 
+.marmalade
+
 // Next Builds
 .next
 out

@@ -3,16 +3,18 @@
   "name": "@joebell/marmalade",
   "version": "0.0.1",
   "author": "Joe Bell <joe@joebell.co.uk>",
-  "license": "ISC",
-  "description": "",
+  "license": "GNU GPLV3",
+  "description": "Another opinionated JAMstack starter.",
   "keywords": [],
   "scripts": {
+    "clean": "rimraf {.marmalade,.next,node_modules,out}",
     "commit": "npx git-cz",
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "concurrently \"npm:build:scripts\" \"next dev\"",
+    "build:scripts": "npx babel scripts/*.ts --out-file .marmalade/index.js",
+    "build": "npm run build:scripts && next build",
     "export": "next export",
+    "production": "npm run build && npm run export",
     "lint": "npx tsc --noEmit && npx eslint '*/**/*.{js,ts,tsx}' --fix",
-    "serve": "npx serve out",
     "start": "next start"
   },
   "config": {
@@ -26,39 +28,36 @@
     }
   },
   "lint-staged": {
-    "*.{json,html,css,md}": "npx prettier --write",
+    "*.{json,html,css,md,mdx}": "npx prettier --write",
     "*.{js,jsx,ts,tsx}": "npm run lint"
   },
   "dependencies": {
     "@mdx-js/loader": "^1.5.7",
     "@mdx-js/mdx": "^1.5.7",
     "@mdx-js/react": "^1.5.7",
-    "@next/mdx": "^9.2.2",
+    "@next/mdx": "^9.3.0",
     "glob": "^7.1.6",
     "gray-matter": "^4.0.2",
-    "isomorphic-unfetch": "^3.0.0",
-    "next": "^9.2.2",
+    "next": "^9.3.0",
     "next-offline": "4.0.6",
     "polished": "^3.4.4",
-    "raw-loader": "^4.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-markdown": "^4.3.1",
-    "stringify-object": "^3.3.0",
     "styled-components": "5.0.1",
     "styled-system": "^5.1.5"
   },
   "devDependencies": {
+    "@babel/cli": "7.8.4",
+    "@types/glob": "^7.1.1",
     "@types/node": "^13.1.6",
     "@types/react": "^16.9.17",
     "@types/styled-components": "4.4.3",
     "@types/styled-system": "^5.1.6",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
-    "babel-plugin-macros": "^2.8.0",
-    "babel-plugin-preval": "^4.0.0",
     "babel-plugin-styled-components": "^1.10.7",
     "commitizen": "^4.0.3",
+    "concurrently": "^5.1.0",
     "cz-conventional-changelog": "^3.1.0",
     "eslint": "6.8.0",
     "eslint-config-prettier": "^6.10.0",
@@ -68,6 +67,8 @@
     "husky": "^4.2.3",
     "lint-staged": "^10.0.7",
     "prettier": "^1.19.1",
+    "rimraf": "^3.0.2",
+    "stringify-object": "^3.3.0",
     "typescript": "^3.7.4"
   }
 }

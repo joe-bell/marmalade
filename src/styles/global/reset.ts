@@ -33,6 +33,15 @@ export const reset: CSSObject = {
     padding: 0,
   },
   /**
+   *
+   */
+  "ul, ol": {
+    "&:not([class])": {
+      margin: 0,
+      paddingLeft: "1.2rem",
+    },
+  },
+  /**
    * Remove trailing margins from nested lists and common block items
    */
   "li >": {
