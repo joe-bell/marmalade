@@ -141,4 +141,5 @@ To configure the initial theme and components used to render MDX/Markdown, you'l
 
 ## Acknowledgements
 
+- [**@mxstbr**](https://github.com/mxstbr) - _["mxstbr.com"](https://github.com/mxstbr/mxstbr.com)'s architecture was a fundamental resource for the start of this template. I owe Max massively for this._
 - [**@robertcoopercode**](https://github.com/robertcoopercode) - [_"Using ESLint and Prettier in a TypeScript Project"_](https://www.robertcooper.me/using-eslint-and-prettier-in-a-typescript-project)
