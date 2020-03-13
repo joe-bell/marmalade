@@ -51,6 +51,7 @@ Another opinionated **JAM**stack starter with static optimization, featuring:
 
 ### Later
 
+- [ ] 💬 Webmentions
 - [ ] 💧 Mimic 11ty cascading data?
 - [ ] 🔍 Better Type checking of front matter (which could be solved by the next item)
 - [ ] 🔩 Use MDX Async API
