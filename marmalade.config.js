@@ -7,7 +7,9 @@ const config = {
     description: "Another opinionated JAMstack starter.",
     author: "Joe Bell",
     url: "https://marmalade.joebell.co.uk",
-    avatar: "",
+    icon: "public/icon.jpg",
+    favicon: "public/favicon.jpg",
+    avatar: "public/avatar.jpg",
     social: {
       github: "joe-bell",
       instagram: "joebell",
@@ -34,6 +36,10 @@ const config = {
       external: true,
     },
   ],
+  posts: {
+    dir: "src/pages/blog",
+    url: "blog",
+  },
 };
 
 module.exports = config;

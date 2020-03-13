@@ -1,7 +1,10 @@
 // Node
 node_modules
 
+// Marmalade Builds
 .marmalade
+public/feed.json
+public/manifest.webmanifest
 
 // Next Builds
 .next

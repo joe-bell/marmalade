@@ -2,7 +2,7 @@
 title: "Post Two"
 layout: "blog"
 date: "2020-03-08"
-description: "Rursus gestae diros altus moenia sibi tori"
+summary: "Rursus gestae diros altus moenia sibi tori"
 tags:
   - css
   - design

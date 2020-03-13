@@ -6,6 +6,8 @@ import path from "path";
 import config from "../marmalade.config";
 import * as Marmalade from "../src/types/marmalade";
 
+const DIR_PUBLIC = path.join(process.cwd(), "public");
+
 export type GetFiles = (glob: string) => Marmalade.FrontMatterWithPath[];
 
 export const getFiles: GetFiles = glob =>
@@ -45,28 +47,76 @@ export const getFilesByLatest: GetFilesByLatest = glob => {
     : files;
 };
 
-export const blogPosts = getFilesByLatest("src/pages/blog/**/*.{md,mdx}");
+export const getMDXPostsByLatest = () =>
+  getFilesByLatest(`${config.posts.dir}/**/*.{md,mdx}`);
 
-export const blogJSONFeed = {
-  version: "https://jsonfeed.org/version/1",
-  title: config.meta.title,
-  description: config.meta.description,
-  home_page_url: `${config.meta.url}/thoughts`,
-  feed_url: `${config.meta.url}/feed.json`,
-  icon: `${config.meta.url}/static/icon.jpg`,
-  favicon: `${config.meta.url}/static/favicon.png`,
-  author: {
-    name: config.meta.author,
-    url: config.meta.url,
-    avatar: config.meta.avatar,
-  },
-  items: blogPosts.map(post => ({
-    id: `${config.meta.url}${post.path}`,
-    url: `${config.meta.url}${post.path}`,
-    title: post.title,
-    // content_text: `${post.summary} See ${config.meta.url}${post.path.`,
-    // summary: post.summary,
-    // image: post.image,
-    date_published: post.date,
-  })),
+export const generatePostsJSONFeed = (dir = DIR_PUBLIC) => {
+  const fileName = "feed.json";
+
+  const feed = {
+    version: "https://jsonfeed.org/version/1",
+    title: config.meta.title,
+    description: config.meta.description,
+    home_page_url: config.meta.url,
+    feed_url: path.join(config.meta.url, fileName),
+    icon: path.join(config.meta.url, config.meta.icon || config.meta.favicon),
+    favicon: path.join(config.meta.url, config.meta.favicon),
+    author: {
+      name: config.meta.author,
+      url: config.meta.url,
+      avatar: config.meta.avatar,
+    },
+    items: getMDXPostsByLatest().map(post => {
+      const postUrl = path.join(config.meta.url, post.path);
+
+      return {
+        id: postUrl,
+        url: postUrl,
+        ...(post.title && { title: post.title }),
+        ...(post.date && { date_published: post.date }),
+        ...(post.summary && {
+          summary: post.summary,
+          // @TODO Revisit after Async API
+          // content_html: instead maybe?
+          content_text: `${post.summary} - To read in full, please visit ${postUrl}.`,
+        }),
+        ...(post.image && { image: post.image }),
+        ...(post.tags && { tags: post.tags }),
+        ...(post.summary && { summary: post.summary }),
+      };
+    }),
+  };
+
+  return fs.writeFileSync(
+    path.join(dir, fileName),
+    JSON.stringify(feed, null, 2)
+  );
+};
+
+export const generateManifest = (dir = DIR_PUBLIC) => {
+  const manifest = {
+    name: config.meta.title,
+    description: config.meta.description,
+    // @TODO Generate Favicons
+    // icons: [
+    //   {
+    //     src: "/images/icons-192.png",
+    //     type: "image/png",
+    //     sizes: "192x192",
+    //   },
+    //   {
+    //     src: "/images/icons-512.png",
+    //     type: "image/png",
+    //     sizes: "512x512",
+    //   },
+    // ],
+    start_url: "/",
+    display: "standalone",
+    scope: "/",
+  };
+
+  return fs.writeFileSync(
+    path.join(dir, "manifest.webmanifest"),
+    JSON.stringify(manifest, null, 2)
+  );
 };

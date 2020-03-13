@@ -35,13 +35,15 @@ Another opinionated **JAM**stack starter with static optimization, featuring:
   - [ ] Blog Posts (index/tags)
   - [ ] Use dynamic imports in `Layouts`
 - [ ] 🔎 Scripts
-  - [ ] Get files
-  - [ ] Get files by latest.
+  - [x] ~~Get files~~
+  - [x] ~~Get files by latest.~~
   - [ ] Get files by tag.
   - [ ] Prettify the date.
-  - [ ] Pass through static files
+  - [x] ~~Pass through static files.~~ N/A use `public`.
+  - [ ] Generate Favicons.
   - [ ] Generate RSS.
-  - [ ] Generate manifest.
+  - [x] ~~Generate JSONFeed.~~
+  - [x] ~~Generate manifest.~~
 - [ ] 🖼 Image optimization.
   - or at least a guide to setup with Netlify LFS?
 - [ ] ⚡️ Performance audits and optimization.

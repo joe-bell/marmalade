@@ -1,6 +1,5 @@
 const path = require("path");
-const withOffline = require("next-offline");
-const { blogPosts } = require("./.marmalade");
+const { generateManifest, generatePostsJSONFeed } = require("./.marmalade");
 
 const webpack = (config, { defaultLoaders }) => {
   config.module.rules.push({
@@ -19,14 +18,17 @@ const exportPathMap = async (
   defaultPathMap,
   { dev, dir, outDir, distDir, buildId }
 ) => {
+  generatePostsJSONFeed();
+  generateManifest();
   // @TODO Passthrough static assets.
   // @TODO Generate and add manifest.
   // @TODO Add JSON/RSS feed.
+
   return defaultPathMap;
 };
 
-module.exports = withOffline({
+module.exports = {
   pageExtensions: ["ts", "tsx", "md", "mdx"],
   webpack,
   exportPathMap,
-});
+};

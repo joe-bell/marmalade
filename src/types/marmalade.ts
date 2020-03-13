@@ -8,11 +8,20 @@ type Meta = {
   author: string;
   url: string;
   avatar: string;
+  icon?: string;
+  favicon: string;
   social?: {
     github?: string;
     instagram?: string;
     twitter?: string;
   };
+  manifestThemeColor?: string;
+  manifestBackgroundColor?: string;
+};
+
+type Posts = {
+  dir: string;
+  url: string;
 };
 
 type NavigationItem = {
@@ -24,16 +33,24 @@ type NavigationItem = {
 export type Config = {
   meta: Meta;
   navigation: NavigationItem[];
+  posts: Posts;
+  attribution?: boolean;
 };
 
 // ===========================================================================
 //   Layouts & FrontMatter
 // ===========================================================================
 
+/**
+ * FYI: These have to be optional as we can't check the frontmatter right now.
+ */
 export type FrontMatter = {
   title?: string;
   layout?: "default" | "blog";
   date?: string;
+  image?: string;
+  summary?: string;
+  tags?: string[];
 };
 
 export type FrontMatterWithPath = FrontMatter & {

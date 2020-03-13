@@ -2,11 +2,11 @@ import * as React from "react";
 import { NextPage } from "next";
 import Link from "next/link";
 import { LayoutDefault } from "../../layouts/layouts";
-import { blogPosts } from "../../../scripts";
+import { getMDXPostsByLatest } from "../../../scripts";
 import * as Marmalade from "../../types/marmalade";
 
 export async function getStaticProps() {
-  return { props: { posts: blogPosts } };
+  return { props: { posts: getMDXPostsByLatest() } };
 }
 
 type BlogIndexProps = {
