@@ -14,7 +14,9 @@
     "build": "npm run build:scripts && next build",
     "export": "next export",
     "production": "npm run build && npm run export",
-    "lint": "npx tsc --noEmit && npx eslint '*/**/*.{js,ts,tsx}' --fix",
+    "lint:ts": "npx tsc --noEmit",
+    "lint:es": "npx eslint '*/**/*.{js,ts,tsx}' --ignore-path .gitignore --fix",
+    "lint": "npm run lint:ts && npm run lint:es",
     "start": "next start"
   },
   "config": {
