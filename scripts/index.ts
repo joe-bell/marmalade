@@ -8,7 +8,7 @@ import * as Marmalade from "../src/types/marmalade";
 
 const DIR_PUBLIC = path.join(process.cwd(), "public");
 
-export type GetFiles = (glob: string) => Marmalade.FrontMatterWithPath[];
+export type GetFiles = (glob: string) => Marmalade.FrontMatterExtended[];
 
 export const getFiles: GetFiles = glob =>
   _glob.sync(glob).map(file => {
@@ -49,6 +49,9 @@ export const getFilesByLatest: GetFilesByLatest = glob => {
 
 export const getMDXPostsByLatest = () =>
   getFilesByLatest(`${config.posts.dir}/**/*.{md,mdx}`);
+
+export const getMDXPostsByTag = (tag: string) =>
+  getMDXPostsByLatest().filter(post => post.tags && post.tags.includes(tag));
 
 export const generatePostsJSONFeed = (dir = DIR_PUBLIC) => {
   const fileName = "feed.json";

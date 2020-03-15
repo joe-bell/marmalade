@@ -1,16 +1,19 @@
 import * as React from "react";
-import { NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
 import { LayoutDefault } from "../../layouts/layouts";
-import { getMDXPostsByLatest } from "../../../scripts";
+import { getMDXPostsByLatest, getMDXPostsByTag } from "../../../scripts";
 import * as Marmalade from "../../types/marmalade";
 
-export async function getStaticProps() {
-  return { props: { posts: getMDXPostsByLatest() } };
-}
+export const getStaticProps: GetStaticProps = async () => {
+  console.log(getMDXPostsByTag("design"));
+  return {
+    props: { posts: getMDXPostsByLatest() },
+  };
+};
 
 type BlogIndexProps = {
-  posts: Marmalade.FrontMatterWithPath[];
+  posts: Marmalade.FrontMatterExtended[];
 };
 
 const BlogIndex: NextPage<BlogIndexProps> = ({ posts }) => (

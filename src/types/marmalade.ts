@@ -53,7 +53,7 @@ export type FrontMatter = {
   tags?: string[];
 };
 
-export type FrontMatterWithPath = FrontMatter & {
+export type FrontMatterExtended = FrontMatter & {
   path: string;
 };
 

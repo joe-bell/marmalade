@@ -54,7 +54,7 @@ Another opinionated **JAM**stack starter with static optimization, featuring:
 - [ ] 💬 Webmentions
 - [ ] 💧 Mimic 11ty cascading data?
 - [ ] 🔍 Better Type checking of front matter (which could be solved by the next item)
-- [ ] 🔩 Use MDX Async API
+- [ ] 🔩 Use MDX API with `getStaticProps()`
 - [ ] 🐞 Types for theme dot notation (e.g. colors).
 - [ ] 🚇 Offline support.
 - [ ] ⚡️ Preact in production.
