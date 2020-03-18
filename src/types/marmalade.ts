@@ -19,11 +19,6 @@ type Meta = {
   manifestBackgroundColor?: string;
 };
 
-type Posts = {
-  dir: string;
-  url: string;
-};
-
 type NavigationItem = {
   title: string;
   url: string;
@@ -33,7 +28,11 @@ type NavigationItem = {
 export type Config = {
   meta: Meta;
   navigation: NavigationItem[];
-  posts: Posts;
+  /**
+   * Pages directory used to generate the RSS feed, e.g. 'blog'.
+   * If empty, the feed will output all MDX pages as posts.
+   */
+  rssDir?: string | string[];
   attribution?: boolean;
 };
 

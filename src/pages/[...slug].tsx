@@ -71,10 +71,6 @@ const IndexPage: React.FC<IndexPageProps & NextPage> = ({
   error,
   ...props
 }) => {
-  // const markdownBody = props.content;
-
-  // const frontmatter = props.data;
-
   return error ? (
     <Error statusCode={404} />
   ) : (

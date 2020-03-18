@@ -90,11 +90,23 @@ export const getAllIndexPaths = (glob = GLOB_MDX) => {
   return sanitizeArray(indexPaths);
 };
 
-export const getMDXPostsByLatest = () =>
-  getFilesByLatest(`${config.posts.dir}/**/*.{md,mdx}`);
+export const getMDXPostsByLatest = () => {
+  const rssGlob = () => {
+    if (!config.rssDir) {
+      return "**/*.{md,mdx}";
+    }
 
-export const getMDXPostsByTag = (tag: string) =>
-  getMDXPostsByLatest().filter(post => post.tags && post.tags.includes(tag));
+    return Array.isArray(config.rssDir)
+      ? `{${config.rssDir.join(",")}}/**/*.{md,mdx}`
+      : `${config.rssDir}/**/*.{md,mdx}`;
+  };
+
+  return getFilesByLatest(rssGlob()).filter(
+    // Only return files from the defined pages directory, and ignore custom
+    // index pages
+    post => post.dir.length !== 0 && post.src.pop() !== "index"
+  );
+};
 
 export const generatePostsJSONFeed = (dir = DIR_PUBLIC) => {
   const fileName = "feed.json";
