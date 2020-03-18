@@ -19,11 +19,6 @@ type Meta = {
   manifestBackgroundColor?: string;
 };
 
-type Posts = {
-  dir: string;
-  url: string;
-};
-
 type NavigationItem = {
   title: string;
   url: string;
@@ -33,7 +28,11 @@ type NavigationItem = {
 export type Config = {
   meta: Meta;
   navigation: NavigationItem[];
-  posts: Posts;
+  /**
+   * Pages directory used to generate the RSS feed, e.g. 'blog'.
+   * If empty, the feed will output all MDX pages as posts.
+   */
+  rssDir?: string | string[];
   attribution?: boolean;
 };
 
@@ -46,24 +45,41 @@ export type Config = {
  */
 export type FrontMatter = {
   title?: string;
-  layout?: "default" | "blog";
+  layout?: "default" | "post" | "index";
   date?: string;
   image?: string;
   summary?: string;
   tags?: string[];
 };
 
-export type FrontMatterWithPath = FrontMatter & {
+export type FileData = {
+  /**
+   * Content Root Path
+   */
+  root: string[];
+  /**
+   * Content Sub-directory Path
+   */
+  dir: string[];
+  /**
+   * File Path
+   */
+  src: string[];
+  /**
+   * Next Path (url)
+   */
   path: string;
 };
 
-export type LayoutProps = {
-  frontMatter?: FrontMatter;
-};
+export type FrontMatterExtended = FrontMatter & FileData;
 
-// ===========================================================================
+export type LayoutProps = {
+  posts?: FrontMatterExtended[];
+} & FrontMatter;
+
+// =============================================================================
 //   Theme Specification
-// ===========================================================================
+// =============================================================================
 
 import { CSSObject } from "styled-components";
 

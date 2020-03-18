@@ -36,10 +36,7 @@ const config = {
       external: true,
     },
   ],
-  posts: {
-    dir: "src/pages/blog",
-    url: "blog",
-  },
+  rssDir: "blog",
 };
 
 module.exports = config;

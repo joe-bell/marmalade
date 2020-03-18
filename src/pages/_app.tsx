@@ -12,7 +12,9 @@ const MarmaladeApp = ({ Component, pageProps }: AppProps) => (
   <ThemeProvider theme={foundationLight}>
     <MDXProvider
       components={{
-        wrapper: props => <Layouts {...props} />,
+        wrapper: props => (
+          <Layouts {...props.frontmatter}>{props.children}</Layouts>
+        ),
       }}
     >
       <Global />

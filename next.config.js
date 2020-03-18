@@ -18,8 +18,8 @@ const exportPathMap = async (
   defaultPathMap,
   { dev, dir, outDir, distDir, buildId }
 ) => {
-  generatePostsJSONFeed();
-  generateManifest();
+  await generatePostsJSONFeed();
+  await generateManifest();
   // @TODO Passthrough static assets.
   // @TODO Generate and add manifest.
   // @TODO Add JSON/RSS feed.
