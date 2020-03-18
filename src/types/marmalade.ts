@@ -46,20 +46,37 @@ export type Config = {
  */
 export type FrontMatter = {
   title?: string;
-  layout?: "default" | "blog";
+  layout?: "default" | "post" | "index";
   date?: string;
   image?: string;
   summary?: string;
   tags?: string[];
 };
 
-export type FrontMatterExtended = FrontMatter & {
+export type FileData = {
+  /**
+   * Content Root Path
+   */
+  root: string[];
+  /**
+   * Content Sub-directory Path
+   */
+  dir: string[];
+  /**
+   * File Path
+   */
+  src: string[];
+  /**
+   * Next Path (url)
+   */
   path: string;
 };
 
+export type FrontMatterExtended = FrontMatter & FileData;
+
 export type LayoutProps = {
-  frontMatter?: FrontMatter;
-};
+  posts?: FrontMatterExtended[];
+} & FrontMatter;
 
 // ===========================================================================
 //   Theme Specification

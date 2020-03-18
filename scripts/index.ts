@@ -7,27 +7,34 @@ import config from "../marmalade.config";
 import * as Marmalade from "../src/types/marmalade";
 
 const DIR_PUBLIC = path.join(process.cwd(), "public");
+const DIR_CONTENT = "src/pages";
+const GLOB_MDX = `**/*.{md,mdx}`;
 
 export type GetFiles = (glob: string) => Marmalade.FrontMatterExtended[];
 
 export const getFiles: GetFiles = glob =>
-  _glob.sync(glob).map(file => {
+  _glob.sync(`${DIR_CONTENT}/${glob}`).map(file => {
     const content = fs.readFileSync(file, "utf8");
     const { data } = matter(content);
 
+    const _fileName = path.basename(file, path.extname(file));
+
+    const root = DIR_CONTENT.split(path.sep);
     const dir = path
       .dirname(file)
       .split(path.sep)
-      .slice(2);
-    const fileName = path.basename(file, path.extname(file));
+      .slice(root.length);
 
-    const route =
-      fileName === "index"
-        ? `/${path.join(...dir)}`
-        : `/${path.join(...dir, fileName)}`;
+    const src = [...root, ...dir, _fileName];
+
+    const nextPath =
+      _fileName === "index" ? path.join(...dir) : path.join(...dir, _fileName);
 
     return Object.assign(data, {
-      path: route,
+      root,
+      dir,
+      src,
+      path: nextPath,
     });
   });
 
@@ -45,6 +52,42 @@ export const getFilesByLatest: GetFilesByLatest = glob => {
       // @ts-ignore
       files.sort((a, b) => new Date(b.date) - new Date(a.date))
     : files;
+};
+
+const sanitizeArray = (arr: string[]) =>
+  arr.filter((value: string, index: number) => arr.indexOf(value) === index);
+
+export const getAllTagsPaths = (glob = GLOB_MDX) => {
+  const paths = getFiles(glob)
+    // Get only paths that contain `tags`
+    .filter(post => post.tags)
+    // Map through each tag and convert into a tag root path (without src/pages)
+    .map(post => post.tags?.map(tag => path.join("/", ...post.dir, "tag", tag)))
+    // I'll solve this later, maybe?
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    .flat();
+
+  return sanitizeArray(paths);
+};
+
+export const getAllIndexPaths = (glob = GLOB_MDX) => {
+  const shouldCreateIndex = (srcDir: string[]): boolean => {
+    // We don't want files from the root pages directory
+    if (srcDir.length === 0) {
+      return false;
+    }
+
+    const indexFile = path.join(DIR_CONTENT, ...srcDir, "index.*");
+
+    return _glob.sync(indexFile).length === 0 ? true : false;
+  };
+
+  const indexPaths = getFiles(glob)
+    .filter(post => shouldCreateIndex(post.dir))
+    .map(post => `/${path.join(...post.dir)}`);
+
+  return sanitizeArray(indexPaths);
 };
 
 export const getMDXPostsByLatest = () =>

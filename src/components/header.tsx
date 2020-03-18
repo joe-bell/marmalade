@@ -22,7 +22,9 @@ export const Header: React.FC = () => (
             {item.external ? (
               <a href={item.url}>{item.title}</a>
             ) : (
-              <Link href={item.url}>{item.title}</Link>
+              <Link href={item.url}>
+                <a>{item.title}</a>
+              </Link>
             )}
           </li>
         ))}
