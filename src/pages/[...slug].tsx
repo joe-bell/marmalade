@@ -10,17 +10,19 @@ import { Layouts } from "../layouts/layouts";
 import { FrontMatterExtended } from "../types/marmalade";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = [...getAllTagsPaths(), ...getAllIndexPaths()];
+  const tagsPaths = await getAllTagsPaths();
+  const indexPaths = await getAllIndexPaths();
+
+  const paths = [...tagsPaths, ...indexPaths];
 
   return { paths, fallback: false };
 };
 
 export const getStaticProps: GetStaticProps<IndexPageProps> = async context => {
-  const errorProps = {
-    props: {
-      error: true,
-    },
-  };
+  const tagsPaths = await getAllTagsPaths();
+  const indexPaths = await getAllIndexPaths();
+
+  const errorProps = { props: { error: true } };
 
   if (!context.params || !context.params.slug) {
     return errorProps;
@@ -29,34 +31,46 @@ export const getStaticProps: GetStaticProps<IndexPageProps> = async context => {
   const slug = context.params.slug;
   const slugPath = Array.isArray(slug) ? `/${slug.join("/")}` : `/${slug}`;
 
-  if (getAllIndexPaths().includes(slugPath)) {
-    const posts = getFilesByLatest(`${slugPath}/**/*.{md,mdx}`);
+  if (indexPaths.includes(slugPath)) {
+    try {
+      const posts = await getFilesByLatest(`${slugPath}/**/*.{md,mdx}`);
 
-    return {
-      props: {
-        title: `${slug}`,
-        posts,
-      },
-    };
+      return {
+        props: {
+          title: `${slug}`,
+          posts,
+        },
+      };
+    } catch (err) {
+      console.error(err);
+      return errorProps;
+    }
   }
 
-  if (getAllTagsPaths().includes(slugPath)) {
+  if (tagsPaths.includes(slugPath)) {
     const tagIndex = slug.indexOf("tag");
     const tagDirIndex = (tagIndex - 1) % slug.length;
     const tagNameIndex = (tagIndex + 1) % slug.length;
     const tagDir = slug[tagDirIndex];
     const tagName = slug[tagNameIndex];
 
-    const posts = getFilesByLatest(`/${tagDir}/**/*.{md,mdx}`).filter(
-      post => post.tags && post.tags.includes(tagName)
-    );
+    try {
+      const files = await getFilesByLatest(`/${tagDir}/**/*.{md,mdx}`);
 
-    return {
-      props: {
-        title: `${tagDir} posts filed under "${tagName}"`,
-        posts,
-      },
-    };
+      const posts = files.filter(
+        post => post.tags && post.tags.includes(tagName)
+      );
+
+      return {
+        props: {
+          title: `${tagDir} posts filed under "${tagName}"`,
+          posts,
+        },
+      };
+    } catch (err) {
+      console.error(err);
+      return errorProps;
+    }
   }
 
   return errorProps;
