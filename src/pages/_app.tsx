@@ -1,25 +1,30 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 /* eslint-disable react/display-name */
 import * as React from "react";
-import { MDXProvider } from "@mdx-js/react";
 import { AppProps } from "next/app";
-import { ThemeProvider } from "../themes/provider";
-import { foundationLight } from "../themes/foundation";
-import { Global } from "../styles/global";
+import { ThemeProvider, Styled } from "theme-ui";
+// @ts-ignore
+import { base } from "@theme-ui/presets";
 import { Layouts } from "../layouts/layouts";
 
 const MarmaladeApp = ({ Component, pageProps }: AppProps) => (
-  <ThemeProvider theme={foundationLight}>
-    <MDXProvider
-      components={{
-        wrapper: props => (
-          <Layouts {...props.frontmatter}>{props.children}</Layouts>
-        ),
-      }}
-    >
-      <Global />
+  <ThemeProvider
+    theme={base}
+    // @ts-ignore
+    components={{
+      // @ts-ignore
+
+      // This doesn't work well, missing theme keys means the container doesn't
+      // render nicely at all.
+      wrapper: props => (
+        <Layouts {...props.frontmatter}>{props.children}</Layouts>
+      ),
+    }}
+  >
+    {/* <Global /> */}
+    <Styled.root>
       <Component {...pageProps} />
-    </MDXProvider>
+    </Styled.root>
   </ThemeProvider>
 );
 

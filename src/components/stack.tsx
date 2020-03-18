@@ -1,33 +1,26 @@
-import styled from "styled-components";
-import { Box, BoxProps } from "./box";
-import { rem } from "../styles/utils/rem";
-import * as Marmalade from "../types/marmalade";
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+/** @jsx jsx */
+import { jsx, BoxOwnProps, GridProps } from "theme-ui";
 
-export type StackProps = {
-  /**
-   * The gap between Stack items.
-   *
-   * Accepts any key from `theme.space`.
-   */
-  gap?: Marmalade.ThemeSpaceKeys;
-} & BoxProps;
+export type StackProps = BoxOwnProps & Pick<GridProps, "gap">;
 
-export const Stack = styled(Box)<StackProps>(
-  ({ gap = "medium", theme: { space } }) => {
-    const themedGap = rem(space[gap]);
-
-    return {
+export const Stack: React.FC<StackProps> = ({ gap = 3, ...props }) => (
+  <div
+    {...props}
+    sx={{
       /**
        * If a browser supports the `grid-gap` property, let's use it.
        * Otherwise, fallback to the lobotomized owl selector to style children.
        */
       "@supports (grid-gap: 0)": {
+        // @ts-ignore
         display: "grid",
-        gridGap: themedGap,
+        // @ts-ignore
+        gridGap: gap,
       },
       "@supports not (grid-gap: 0)": {
         "& > * + *": {
-          marginTop: themedGap,
+          marginTop: gap,
         },
       },
       /* Ensure direct child list-items render without bullets */
@@ -39,6 +32,6 @@ export const Stack = styled(Box)<StackProps>(
             '"\\200B"' /* Add zero-width space to prevent VoiceOver disable */,
         },
       },
-    };
-  }
+    }}
+  />
 );

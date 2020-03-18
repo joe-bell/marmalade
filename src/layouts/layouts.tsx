@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Box } from "../components/box";
-import { Container } from "../components/container";
+import { Box, Container } from "theme-ui";
 import { Head } from "../components/head";
 import { Stack } from "../components/stack";
 import { Header } from "../components/header";

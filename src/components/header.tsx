@@ -2,12 +2,11 @@
 import * as React from "react";
 import Link from "next/link";
 import { meta, navigation } from "../../marmalade.config";
-import { Container } from "./container";
-import { Box } from "./box";
+import { Box, Container } from "theme-ui";
 import { Hide } from "./hide";
 
 export const Header: React.FC = () => (
-  <Box as="header" paddingY="medium">
+  <Box as="header" py={4}>
     <Container>
       <Hide hideVisually>{meta.title}: home page</Hide>
       <Link href="/">
