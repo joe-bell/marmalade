@@ -18,8 +18,8 @@ const config = {
   },
   navigation: [
     {
-      title: "About",
-      url: "/about",
+      title: "Readme",
+      url: "/readme",
     },
     {
       title: "Blog",

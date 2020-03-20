@@ -2,7 +2,6 @@ import { Globals } from "csstype";
 import styled from "styled-components";
 import { system } from "styled-system";
 import * as Marmalade from "../types/marmalade";
-import { rem } from "../styles/utils/rem";
 
 type BoxSpaceProps = keyof Marmalade.ThemeSpace | Globals | "auto" | number;
 
@@ -45,10 +44,10 @@ const transformSpaceToRem = (value: string | number, scale: any) => {
   }
 
   if (!scale) {
-    return typeof value === "string" ? value : rem(value);
+    return typeof value === "string" ? value : value;
   }
 
-  return scale.hasOwnProperty(value) ? rem(scale[value]) : value;
+  return scale.hasOwnProperty(value) ? scale[value] : value;
 };
 
 const styleProps = (properties: string[], scaleKey: keyof Marmalade.Theme) =>

@@ -24,11 +24,8 @@ export const LayoutDefault: React.FC<Marmalade.LayoutProps> = ({
     <Head />
     <LayoutRoot {...props}>
       <Head />
-      <Container as="aside">
-        <p>Default Layout</p>
-      </Container>
       {children && (
-        <Container>
+        <Container paddingTop={3} paddingBottom={6}>
           <Stack>{children}</Stack>
         </Container>
       )}

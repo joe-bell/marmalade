@@ -4,7 +4,7 @@
 
 Another opinionated **JAM**stack starter with static optimization, featuring:
 
-- A **Design System** (custom built in [Styled Components](https://styled-components.com/) with themes)
+- **Theme-UI**
 - **TypeScript**
 - **MDX** (extended to support front matter and custom layouts)
 
@@ -17,17 +17,9 @@ Another opinionated **JAM**stack starter with static optimization, featuring:
 - [x] ~~🎨 Theming Schema~~.
 - [x] ~~🏁 ESLint, Prettier and commit tools~~.
 - [ ] 🧱 Components
-  - [x] ~~Container~~
-  - [ ] Text
-  - [ ] Heading
-  - [ ] Divider
-  - [ ] Blockquote
-  - [ ] Link
-  - [ ] Image
-  - [ ] Table
-  - [ ] List
-  - [ ] Code inline
-  - [ ] Code block
+  - [x] ~~Stack~~
+  - [x] ~~Inline~~
+  - [ ] ~~Header~~
 - [ ] 🏗 Layouts
   - [ ] Home (move the README).
   - [ ] Default

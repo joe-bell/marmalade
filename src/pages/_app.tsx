@@ -4,12 +4,13 @@ import * as React from "react";
 import { AppProps } from "next/app";
 import { ThemeProvider, Styled } from "theme-ui";
 // @ts-ignore
-import { base } from "@theme-ui/presets";
+import swiss from "../themes/swiss";
 import { Layouts } from "../layouts/layouts";
+import { Global } from "../styles/global";
 
 const MarmaladeApp = ({ Component, pageProps }: AppProps) => (
   <ThemeProvider
-    theme={base}
+    theme={swiss}
     // @ts-ignore
     components={{
       // @ts-ignore
@@ -21,7 +22,7 @@ const MarmaladeApp = ({ Component, pageProps }: AppProps) => (
       ),
     }}
   >
-    {/* <Global /> */}
+    <Global />
     <Styled.root>
       <Component {...pageProps} />
     </Styled.root>
