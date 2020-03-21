@@ -3,7 +3,7 @@
  */
 const config = {
   meta: {
-    title: "Marmalade 🍊",
+    title: "marmalade 🍊",
     description: "Another opinionated JAMstack starter.",
     author: "Joe Bell",
     url: "https://marmalade.joebell.co.uk",
