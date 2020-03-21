@@ -120,13 +120,8 @@ To configure the initial theme and components used to render MDX/Markdown, you'l
 </details>
 
 <details>
- <summary><b>Why do you use CSS-in-JS (specifically <a href="https://styled-components.com/">Styled Components</a>)?</b></summary>
-  It feels right. I was a SASS advocate, but now it just feels cumbersome and outdated. With CSS-in-JS I can make the most of a theme schema to reinforce design tokens. In comparison to Emotion, Styled Components benefits from a wider community, better TypeScript support and <a href="https://github.com/emotion-js/emotion/issues/1178">less restrictions on how to write CSS</a>.
-</details>
-
-<details>
- <summary><b>Why don't you follow the <a href="https://styled-system.com/theme-specification/">Styled System Theme Specification</a>?</b></summary>
-  Marmalade's components use Styled System under the hood to generate themed style props. I just wasn't particularly a fan of the plural naming convention of theme keys, but I might change my mind on this if it's problematic.
+ <summary><b>Why do you use CSS-in-JS (specifically <a href="https://theme-ui.com/">Theme-UI</a>)?</b></summary>
+  It feels right. I was a SASS advocate, but now it just feels cumbersome and outdated. With CSS-in-JS I can make the most of a theme schema to reinforce design tokens.
 </details>
 
 <details>

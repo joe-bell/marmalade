@@ -81,8 +81,6 @@ export type LayoutProps = {
 //   Theme Specification
 // =============================================================================
 
-import { CSSObject } from "styled-components";
-
 // Base
 // ==============================================
 
@@ -118,19 +116,19 @@ export type ThemeBase = {
 
 export type ThemeBorderWidth = number;
 
-export type ThemeBorderStyle = CSSObject["borderStyle"];
+// export type ThemeBorderStyle = CSSObject["borderStyle"];
 
-export type ThemeBorder = CSSObject["border"];
+// export type ThemeBorder = CSSObject["border"];
 
 // Box Shadow
 // ==============================================
 
-export type ThemeBoxShadow = CSSObject["boxShadow"];
+// export type ThemeBoxShadow = CSSObject["boxShadow"];
 
 // Box Sizing
 // ==============================================
 
-export type ThemeBoxSizing = CSSObject["boxSizing"];
+// export type ThemeBoxSizing = CSSObject["boxSizing"];
 
 // Breakpoint
 // ==============================================
@@ -145,7 +143,9 @@ export type ThemeBreakpoint = {
 // Colors
 // ==============================================
 
-export type ThemeColorValue = CSSObject["color"];
+// export type ThemeColorValue = CSSObject["color"];
+
+export type ThemeColorValue = string;
 
 export type ThemeColorPalette = {
   100: ThemeColorValue;
@@ -170,7 +170,7 @@ export type ThemeColorScheme = "light" | "dark";
 // Font
 // ==============================================
 
-export type ThemeFontFace = CSSObject | CSSObject[] | undefined;
+// export type ThemeFontFace = CSSObject | CSSObject[] | undefined;
 
 export type ThemeFontFamily = string;
 
@@ -242,15 +242,15 @@ export type ThemeZIndex = {
 
 export type Theme = {
   base: ThemeBase;
-  border: ThemeBorder;
+  // border: ThemeBorder;
   borderWidth: ThemeBorderWidth;
-  borderStyle: ThemeBorderStyle;
-  boxShadow: ThemeBoxShadow;
-  boxSizing: ThemeBoxSizing;
+  // borderStyle: ThemeBorderStyle;
+  // boxShadow: ThemeBoxShadow;
+  // boxSizing: ThemeBoxSizing;
   breakpoint: ThemeBreakpoint;
   color: ThemeColor;
   colorScheme: ThemeColorScheme;
-  fontFace?: ThemeFontFace;
+  // fontFace?: ThemeFontFace;
   fontFamily: ThemeFontFamily;
   fontSize: ThemeFontSize;
   fontWeight: ThemeFontWeight;

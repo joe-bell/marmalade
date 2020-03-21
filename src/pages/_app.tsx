@@ -3,20 +3,16 @@
 import * as React from "react";
 import { AppProps } from "next/app";
 import { ThemeProvider, Styled } from "theme-ui";
-// @ts-ignore
-import swiss from "../themes/swiss";
+import marmalade from "../themes/marmalade";
 import { Layouts } from "../layouts/layouts";
 import { Global } from "../styles/global";
 
 const MarmaladeApp = ({ Component, pageProps }: AppProps) => (
   <ThemeProvider
-    theme={swiss}
+    theme={marmalade}
     // @ts-ignore
     components={{
       // @ts-ignore
-
-      // This doesn't work well, missing theme keys means the container doesn't
-      // render nicely at all.
       wrapper: props => (
         <Layouts {...props.frontmatter}>{props.children}</Layouts>
       ),

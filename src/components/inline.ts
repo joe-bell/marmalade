@@ -11,6 +11,7 @@ const inlineMargin = ({
 }: {
   gap: InlineMargin;
   negative?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }) => (theme: any) => {
   if (typeof gap === "undefined" || gap === null) {
     return null;
@@ -29,8 +30,10 @@ const responsiveInlineMargin = ({
   negative = false,
 }: {
   /* I can't be bothered to fix this right now */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   gap: any;
   negative?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }) => (theme: any) => {
   if (Array.isArray(gap)) {
     return gap.map(gapValue =>
