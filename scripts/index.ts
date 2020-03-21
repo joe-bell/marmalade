@@ -15,7 +15,7 @@ const GLOB_MDX = `**/*.{md,mdx}`;
 // Utils
 // =============================================================================
 
-const isEmpty = (arr: any[]) =>
+const isEmpty = (arr: unknown[]) =>
   !Array.isArray(arr) || !arr.length ? true : false;
 
 const sanitizeArray = (arr: string[]) =>

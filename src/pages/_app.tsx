@@ -1,25 +1,27 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 /* eslint-disable react/display-name */
 import * as React from "react";
-import { MDXProvider } from "@mdx-js/react";
 import { AppProps } from "next/app";
-import { ThemeProvider } from "../themes/provider";
-import { foundationLight } from "../themes/foundation";
-import { Global } from "../styles/global";
+import { ThemeProvider, Styled } from "theme-ui";
+import marmalade from "../themes/marmalade";
 import { Layouts } from "../layouts/layouts";
+import { Global } from "../styles/global";
 
 const MarmaladeApp = ({ Component, pageProps }: AppProps) => (
-  <ThemeProvider theme={foundationLight}>
-    <MDXProvider
-      components={{
-        wrapper: props => (
-          <Layouts {...props.frontmatter}>{props.children}</Layouts>
-        ),
-      }}
-    >
-      <Global />
+  <ThemeProvider
+    theme={marmalade}
+    // @ts-ignore
+    components={{
+      // @ts-ignore
+      wrapper: props => (
+        <Layouts {...props.frontmatter}>{props.children}</Layouts>
+      ),
+    }}
+  >
+    <Global />
+    <Styled.root>
       <Component {...pageProps} />
-    </MDXProvider>
+    </Styled.root>
   </ThemeProvider>
 );
 
