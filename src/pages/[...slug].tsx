@@ -2,16 +2,24 @@ import * as React from "react";
 import { GetStaticProps, GetStaticPaths, NextPage } from "next";
 import Error from "next/error";
 import {
-  getFilesByLatest,
   getAllTagsPaths,
   getAllIndexPaths,
+  generateManifest,
+  generatePostsJSONFeed,
 } from "../../scripts";
 import { Layouts } from "../layouts/layouts";
-import { FrontMatterExtended } from "../types/marmalade";
+import * as Marmalade from "../types/marmalade";
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+import { frontMatter as pages } from "../pages/**/*.{md,mdx}";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const tagsPaths = await getAllTagsPaths();
-  const indexPaths = await getAllIndexPaths();
+  const tagsPaths = await getAllTagsPaths(pages);
+  const indexPaths = await getAllIndexPaths(pages);
+
+  // Generate Assets which require pages
+  await generateManifest();
+  await generatePostsJSONFeed(pages);
 
   const paths = [...tagsPaths, ...indexPaths];
 
@@ -19,8 +27,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps<IndexPageProps> = async context => {
-  const tagsPaths = await getAllTagsPaths();
-  const indexPaths = await getAllIndexPaths();
+  const tagsPaths = await getAllTagsPaths(pages);
+  const indexPaths = await getAllIndexPaths(pages);
 
   const errorProps = { props: { error: true } };
 
@@ -32,19 +40,16 @@ export const getStaticProps: GetStaticProps<IndexPageProps> = async context => {
   const slugPath = Array.isArray(slug) ? `/${slug.join("/")}` : `/${slug}`;
 
   if (indexPaths.includes(slugPath)) {
-    try {
-      const posts = await getFilesByLatest(`${slugPath}/**/*.{md,mdx}`);
+    const posts = pages.filter((page: Marmalade.FrontMatterExtended) =>
+      page.__resourcePath.includes(`src/pages${slugPath}`)
+    );
 
-      return {
-        props: {
-          title: `${slug}`,
-          posts,
-        },
-      };
-    } catch (err) {
-      console.error(err);
-      return errorProps;
-    }
+    return {
+      props: {
+        title: `${slug}`,
+        posts,
+      },
+    };
   }
 
   if (tagsPaths.includes(slugPath)) {
@@ -54,23 +59,17 @@ export const getStaticProps: GetStaticProps<IndexPageProps> = async context => {
     const tagDir = slug[tagDirIndex];
     const tagName = slug[tagNameIndex];
 
-    try {
-      const files = await getFilesByLatest(`/${tagDir}/**/*.{md,mdx}`);
+    const posts = pages.filter(
+      (post: Marmalade.FrontMatterExtended) =>
+        post.tags && post.tags.includes(tagName)
+    );
 
-      const posts = files.filter(
-        post => post.tags && post.tags.includes(tagName)
-      );
-
-      return {
-        props: {
-          title: `${tagDir} posts filed under "${tagName}"`,
-          posts,
-        },
-      };
-    } catch (err) {
-      console.error(err);
-      return errorProps;
-    }
+    return {
+      props: {
+        title: `${tagDir} posts filed under "${tagName}"`,
+        posts,
+      },
+    };
   }
 
   return errorProps;
@@ -78,7 +77,7 @@ export const getStaticProps: GetStaticProps<IndexPageProps> = async context => {
 
 type IndexPageProps = {
   error?: boolean;
-  posts?: FrontMatterExtended[];
+  posts?: Marmalade.FrontMatterExtended[];
 };
 
 const IndexPage: React.FC<IndexPageProps & NextPage> = ({
@@ -88,6 +87,8 @@ const IndexPage: React.FC<IndexPageProps & NextPage> = ({
   return error ? (
     <Error statusCode={404} />
   ) : (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     <Layouts layout="index" {...props} />
   );
 };

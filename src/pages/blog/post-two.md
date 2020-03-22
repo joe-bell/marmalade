@@ -1,6 +1,6 @@
 ---
 title: "Post Two"
-layout: "blog"
+layout: "post"
 date: "2020-03-08"
 summary: "Rursus gestae diros altus moenia sibi tori"
 tags:

@@ -1,10 +1,5 @@
 import * as React from "react";
-import { LayoutDefault } from "../layouts/layouts";
 
-const About: React.FC = () => (
-  <LayoutDefault title="About">
-    <p>This is the about page</p>
-  </LayoutDefault>
-);
+const About: React.FC = () => <p>This is the about page</p>;
 
 export default About;

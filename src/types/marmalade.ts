@@ -32,7 +32,12 @@ export type Config = {
    * Pages directory used to generate the RSS feed, e.g. 'blog'.
    * If empty, the feed will output all MDX pages as posts.
    */
-  rssDir?: string | string[];
+  rssPostsDir?: string | string[];
+  /**
+   * Pages directory used to generate the posts on the home template.
+   * If empty, the feed will output all MDX pages as posts.
+   */
+  homePostsDir?: string | string[];
   attribution?: boolean;
 };
 
@@ -40,38 +45,29 @@ export type Config = {
 //   Layouts & FrontMatter
 // ===========================================================================
 
+export type FrontMatterCustom = {
+  __dir: string[];
+  __path: string;
+  __wordCount: number;
+  __dateString?: string;
+};
+
 /**
  * FYI: These have to be optional as we can't check the frontmatter right now.
  */
 export type FrontMatter = {
   title?: string;
-  layout?: "default" | "post" | "index";
+  layout?: "default" | "post" | "index" | "home";
   date?: string;
   image?: string;
   summary?: string;
   tags?: string[];
+  __resourcePath: string;
 };
 
-export type FileData = {
-  /**
-   * Content Root Path
-   */
-  root: string[];
-  /**
-   * Content Sub-directory Path
-   */
-  dir: string[];
-  /**
-   * File Path
-   */
-  src: string[];
-  /**
-   * Next Path (url)
-   */
-  path: string;
-};
+export type FrontMatterExtended = FrontMatterCustom & FrontMatter;
 
-export type FrontMatterExtended = FrontMatter & FileData;
+export type Layout = (frontMatter: FrontMatter) => React.FC;
 
 export type LayoutProps = {
   posts?: FrontMatterExtended[];

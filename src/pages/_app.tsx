@@ -4,7 +4,6 @@ import * as React from "react";
 import { AppProps } from "next/app";
 import { ThemeProvider, Styled } from "theme-ui";
 import marmalade from "../themes/marmalade";
-import { Layouts } from "../layouts/layouts";
 import { Global } from "../styles/global";
 
 const MarmaladeApp = ({ Component, pageProps }: AppProps) => (
@@ -13,9 +12,7 @@ const MarmaladeApp = ({ Component, pageProps }: AppProps) => (
     // @ts-ignore
     components={{
       // @ts-ignore
-      wrapper: props => (
-        <Layouts {...props.frontmatter}>{props.children}</Layouts>
-      ),
+      wrapper: props => <div>{props.children}</div>,
     }}
   >
     <Global />

@@ -48,11 +48,11 @@ export const LayoutPostsIndex: React.FC<Marmalade.LayoutProps> = ({
           {posts && (
             <ol reversed>
               {posts.map(
-                post =>
+                (post: any) =>
                   post.title && (
                     <li key={post.title}>
                       <>
-                        <Link href={`../../${post.path}`}>
+                        <Link href={`../..${post.__path}`}>
                           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                           <a>{post.title}</a>
                         </Link>

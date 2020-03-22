@@ -9,7 +9,6 @@ import * as Marmalade from "../src/types/marmalade";
 
 const DIR_PUBLIC = path.join(process.cwd(), "public");
 const DIR_CONTENT = "src/pages";
-const GLOB_MDX = `**/*.{md,mdx}`;
 
 // =============================================================================
 // Utils
@@ -22,10 +21,68 @@ const sanitizeArray = (arr: string[]) =>
   arr.filter((value: string, index: number) => arr.indexOf(value) === index);
 
 // =============================================================================
+// FrontMatter Extend
+// =============================================================================
+
+export const extendFrontMatter = (
+  mdxContent: string,
+  frontMatter: Marmalade.FrontMatter
+): Marmalade.FrontMatterCustom => {
+  // Paths
+  // ---------------------------------------------------------------------------
+
+  // Get the current working directory and strip the leading slash.
+  const _cwd = process.cwd().replace(/^(\/)/, "");
+  // Strip the current working directory
+  const _rootPath = frontMatter.__resourcePath
+    .replace(_cwd, "")
+    .split(path.sep)
+    .filter(item => item);
+  // Get index of 'pages' directory to calculate where to trim the path.
+  const _pagesIndex = _rootPath.indexOf("pages");
+  // Create a relative file path array.
+  // e.g. Users/<name>/marmalade/src/pages/blog/post.mdx => ['blog', 'post.mdx']
+  const _relativePath = _rootPath.slice(_pagesIndex && _pagesIndex + 1);
+
+  const _fileName = path
+    .basename(
+      frontMatter.__resourcePath,
+      path.extname(frontMatter.__resourcePath)
+    )
+    .toLowerCase();
+
+  // Get the page sub-directory if there is one
+  const dir = _relativePath.slice(0, -1);
+  const dirPath = dir.length === 0 ? "" : path.join(...dir).toLowerCase();
+
+  const nextPath = `/${
+    _fileName === "index" ? dirPath : path.join(dirPath, _fileName)
+  }`;
+
+  // Date
+  // ---------------------------------------------------------------------------
+
+  const dateString = frontMatter.date
+    ? new Date(frontMatter.date).toLocaleDateString("en-GB", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : undefined;
+
+  return {
+    __dir: dir,
+    __path: nextPath,
+    __wordCount: mdxContent.split(/\s+/g).length,
+    ...(dateString && { __dateString: dateString }),
+  };
+};
+
+// =============================================================================
 // File Get
 // =============================================================================
 
-type GetFiles = (glob: string) => Promise<Marmalade.FrontMatterExtended[] | []>;
+type GetFiles = (glob: string) => Promise<any[] | []>;
 
 export const getFiles: GetFiles = async glob => {
   try {
@@ -115,33 +172,28 @@ export const getMDXPostsByLatest = async () => {
   }
 };
 
-export const getAllTagsPaths = async (glob = GLOB_MDX) => {
-  try {
-    const files = await getFiles(glob);
-
-    if (isEmpty(files)) {
-      throw new Error(`🚨 No tag paths found matching: ${glob}`);
-    }
-
-    const paths = files // Get only paths that contain `tags`
-      .filter(post => post.tags)
-      // Map through each tag and convert into a tag root path (without src/pages)
-      .map(post =>
-        post.tags?.map(tag => path.join("/", ...post.dir, "tag", tag))
-      )
-      // I'll solve this later, maybe?
+export const getAllTagsPaths = async (
+  pagesFrontMatter: Marmalade.FrontMatterExtended[]
+) => {
+  const paths = pagesFrontMatter // Get only paths that contain `tags`
+    .filter(post => post.tags)
+    // Map through each tag and convert into a tag root path (without src/pages)
+    .map(post =>
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
-      .flat();
+      post.tags?.map(tag => path.join("/", ...post.__dir, "tag", tag))
+    )
+    // I'll solve this later, maybe?
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    .flat();
 
-    return sanitizeArray(paths);
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
+  return sanitizeArray(paths);
 };
 
-export const getAllIndexPaths = async (glob = GLOB_MDX) => {
+export const getAllIndexPaths = async (
+  pagesFrontMatter: Marmalade.FrontMatterExtended[]
+) => {
   const shouldCreateIndex = (srcDir: string[]): boolean => {
     // We don't want files from the root pages directory
     if (srcDir.length === 0) {
@@ -153,84 +205,100 @@ export const getAllIndexPaths = async (glob = GLOB_MDX) => {
     return _glob.sync(indexFile).length === 0 ? true : false;
   };
 
-  try {
-    const files = await getFiles(glob);
+  const indexPaths = pagesFrontMatter
+    .filter(post => shouldCreateIndex(post.__dir))
+    .map(post => `/${path.join(...post.__dir)}`);
 
-    if (isEmpty(files)) {
-      throw new Error(`🚨 No tag paths found matching: ${glob}`);
-    }
-
-    const indexPaths = files
-      .filter(post => shouldCreateIndex(post.dir))
-      .map(post => `/${path.join(...post.dir)}`);
-
-    return sanitizeArray(indexPaths);
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
+  return sanitizeArray(indexPaths);
 };
 
 // =============================================================================
 // File Generation
 // =============================================================================
 
-export const generatePostsJSONFeed = async (dir = DIR_PUBLIC) => {
+// =======================
+
+type FilterPagesByLatest = (
+  pagesFrontMatter: Marmalade.FrontMatterExtended[]
+) => Marmalade.FrontMatterExtended[];
+
+const filterPagesByLatest: FilterPagesByLatest = pagesFrontMatter => {
+  // Check if pages in the specified glob contain the date property.
+  const pagesContainDate = pagesFrontMatter.every(file => file.date);
+
+  return pagesContainDate
+    ? // I *might* fix this
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      pagesFrontMatter.sort((a, b) => new Date(b.date) - new Date(a.date))
+    : pagesFrontMatter;
+};
+
+export const generatePostsJSONFeed = async (
+  pagesFrontMatter: Marmalade.FrontMatterExtended[]
+) => {
   const fileName = "feed.json";
-  const filePath = path.join(dir, fileName);
+  const filePath = path.join(DIR_PUBLIC, fileName);
 
-  try {
-    const posts = await getMDXPostsByLatest();
-    const postDir = Array.isArray(config.rssDir)
-      ? config.rssDir.join(", ")
-      : config.rssDir;
+  const postsDir = Array.isArray(config.rssPostsDir)
+    ? config.rssPostsDir
+    : [config.rssPostsDir];
 
-    if (isEmpty(posts)) {
-      throw new Error(`🚨 No posts found matching: ${config.rssDir}`);
-    }
+  // Filter posts that the directory matches ones defined in rsspostsDir
 
-    const feed = {
-      version: "https://jsonfeed.org/version/1",
-      title: config.meta.title,
-      description: config.meta.description,
-      home_page_url: config.meta.url,
-      feed_url: path.join(config.meta.url, fileName),
-      icon: path.join(config.meta.url, config.meta.icon || config.meta.favicon),
-      favicon: path.join(config.meta.url, config.meta.favicon),
-      author: {
-        name: config.meta.author,
-        url: config.meta.url,
-        avatar: config.meta.avatar,
-      },
-      items: posts.map(post => {
-        const postUrl = path.join(config.meta.url, post.path);
+  const posts = filterPagesByLatest(pagesFrontMatter)
+    .filter(
+      // Only return files from the defined pages directory, and ignore custom
+      // index pages
+      post =>
+        post.__dir.length !== 0 &&
+        post.__resourcePath.split(path.sep).pop() !== "index"
+    )
+    .filter(post =>
+      postsDir.map(postDir => postDir && post.__resourcePath.includes(postDir))
+    );
 
-        return {
-          id: postUrl,
-          url: postUrl,
-          ...(post.title && { title: post.title }),
-          ...(post.date && { date_published: post.date }),
-          ...(post.summary && {
-            summary: post.summary,
-            // @TODO Revisit after Async API
-            // content_html: instead maybe?
-            content_text: `${post.summary} - To read in full, please visit ${postUrl}.`,
-          }),
-          ...(post.image && { image: post.image }),
-          ...(post.tags && { tags: post.tags }),
-          ...(post.summary && { summary: post.summary }),
-        };
-      }),
-    };
+  const feed = {
+    version: "https://jsonfeed.org/version/1",
+    title: config.meta.title,
+    description: config.meta.description,
+    home_page_url: config.meta.url,
+    feed_url: path.join(config.meta.url, fileName),
+    icon: path.join(config.meta.url, config.meta.icon || config.meta.favicon),
+    favicon: path.join(config.meta.url, config.meta.favicon),
+    author: {
+      name: config.meta.author,
+      url: config.meta.url,
+      avatar: config.meta.avatar,
+    },
+    items: posts.map(post => {
+      const postUrl = path.join(config.meta.url, post.__path);
 
-    return promisify(fs.writeFile)(filePath, JSON.stringify(feed, null, 2))
-      .then(() =>
-        console.log(`✅ RSS feed created for "${postDir}" at: ${filePath}`)
+      return {
+        id: postUrl,
+        url: postUrl,
+        ...(post.title && { title: post.title }),
+        ...(post.date && { date_published: post.date }),
+        ...(post.summary && {
+          summary: post.summary,
+          // @TODO Revisit after Async API
+          // content_html: instead maybe?
+          content_text: `${post.summary} - To read in full, please visit ${postUrl}.`,
+        }),
+        ...(post.image && { image: post.image }),
+        ...(post.tags && { tags: post.tags }),
+        ...(post.summary && { summary: post.summary }),
+      };
+    }),
+  };
+
+  return promisify(fs.writeFile)(filePath, JSON.stringify(feed, null, 2))
+    .then(() =>
+      console.log(
+        `✅ RSS feed created for "${postsDir.join(", ")}" at: ${filePath}`
       )
-      .catch(err => console.error(err));
-  } catch (err) {
-    console.error(err);
-  }
+    )
+    .catch(err => console.error(err));
 };
 
 export const generateManifest = async (dir = DIR_PUBLIC) => {

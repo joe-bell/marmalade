@@ -1,3 +1,7 @@
+---
+layout: "home"
+---
+
 # marmalade 🍊
 
 Another opinionated **JAM**stack starter with static optimization, featuring:
