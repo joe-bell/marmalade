@@ -101,17 +101,5 @@ export const LayoutPoot: React.FC<Marmalade.LayoutProps> = ({
 // @TODO
 // Use Next.js dynamic imports to handle layout
 export const Layouts: React.FC<Marmalade.LayoutProps> = props => {
-  if (!props.layout) {
-    return <LayoutDefault {...props} />;
-  }
-
-  if (props.layout === "post") {
-    return <LayoutPoot {...props} />;
-  }
-
-  if (props.layout === "index") {
-    return <LayoutPostsIndex {...props} />;
-  }
-
   return <LayoutDefault {...props} />;
 };

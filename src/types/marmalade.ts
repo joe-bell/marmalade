@@ -57,7 +57,8 @@ export type FrontMatterCustom = {
  */
 export type FrontMatter = {
   title?: string;
-  layout?: "default" | "post" | "index" | "home";
+  // Note: post-index `layout` is incompatible with MDX.
+  layout?: "default" | "post" | "home";
   date?: string;
   image?: string;
   summary?: string;
@@ -68,6 +69,8 @@ export type FrontMatter = {
 export type FrontMatterExtended = FrontMatterCustom & FrontMatter;
 
 export type Layout = (frontMatter: FrontMatter) => React.FC;
+
+export type Posts = FrontMatterExtended[];
 
 export type LayoutProps = {
   posts?: FrontMatterExtended[];

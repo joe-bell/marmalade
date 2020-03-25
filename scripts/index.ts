@@ -148,17 +148,17 @@ export const getFilesByLatest: GetFiles = async glob => {
 };
 
 export const getMDXPostsByLatest = async () => {
-  const rssGlob = !config.rssDir
+  const rssGlob = !config.rssPostsDir
     ? "**/*.{md,mdx}"
-    : Array.isArray(config.rssDir)
-    ? `{${config.rssDir.join(",")}}/**/*.{md,mdx}`
-    : `${config.rssDir}/**/*.{md,mdx}`;
+    : Array.isArray(config.rssPostsDir)
+    ? `{${config.rssPostsDir.join(",")}}/**/*.{md,mdx}`
+    : `${config.rssPostsDir}/**/*.{md,mdx}`;
 
   try {
     const files = await getFilesByLatest(rssGlob);
 
     if (isEmpty(files)) {
-      throw new Error(`🚨 No posts found matching: ${config.rssDir}`);
+      throw new Error(`🚨 No posts found matching: ${config.rssPostsDir}`);
     }
 
     return files.filter(

@@ -7,7 +7,7 @@ import {
   generateManifest,
   generatePostsJSONFeed,
 } from "../../scripts";
-import { Layouts } from "../layouts/layouts";
+import LayoutPostIndex, { LayoutPostIndexProps } from "../layouts/post-index";
 import * as Marmalade from "../types/marmalade";
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
@@ -77,8 +77,7 @@ export const getStaticProps: GetStaticProps<IndexPageProps> = async context => {
 
 type IndexPageProps = {
   error?: boolean;
-  posts?: Marmalade.FrontMatterExtended[];
-};
+} & LayoutPostIndexProps;
 
 const IndexPage: React.FC<IndexPageProps & NextPage> = ({
   error,
@@ -89,7 +88,7 @@ const IndexPage: React.FC<IndexPageProps & NextPage> = ({
   ) : (
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
-    <Layouts layout="index" {...props} />
+    <LayoutPostIndex {...props} />
   );
 };
 
