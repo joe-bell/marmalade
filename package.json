@@ -7,17 +7,16 @@
   "description": "Another opinionated JAMstack starter.",
   "keywords": [],
   "scripts": {
-    "clean": "rimraf {.marmalade,.next,node_modules,out}",
     "commit": "npx git-cz",
     "dev": "concurrently \"npm:build:scripts\" \"next dev\"",
     "build:scripts": "npx babel scripts/*.ts --out-file .marmalade/index.js",
     "build": "npm run build:scripts && next build",
-    "export": "next export",
-    "production": "npm run build && npm run export",
+    "production": "npm run clean && npm run build && next export",
+    "start": "next start",
+    "lint": "npm run lint:ts && npm run lint:es",
     "lint:ts": "npx tsc --noEmit",
     "lint:es": "npx eslint '*/**/*.{js,ts,tsx}' --ignore-path .gitignore --fix",
-    "lint": "npm run lint:ts && npm run lint:es",
-    "start": "next start"
+    "clean": "rimraf {.marmalade,.next,out}"
   },
   "config": {
     "commitizen": {

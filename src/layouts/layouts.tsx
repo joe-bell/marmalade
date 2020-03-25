@@ -3,7 +3,7 @@ import { Box, Container } from "theme-ui";
 import { Head } from "../components/head";
 import { Stack } from "../components/stack";
 import { Header } from "../components/header";
-import * as Marmalade from "../types/marmalade";
+import * as Marmalade from "../types";
 import Link from "next/link";
 
 /* eslint-disable @typescript-eslint/ban-ts-ignore */

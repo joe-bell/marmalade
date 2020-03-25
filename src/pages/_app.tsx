@@ -3,8 +3,8 @@
 import * as React from "react";
 import { AppProps } from "next/app";
 import { ThemeProvider, Styled } from "theme-ui";
-import marmalade from "../themes/marmalade";
 import { Global } from "../styles/global";
+import marmalade from "../theme";
 
 const MarmaladeApp = ({ Component, pageProps }: AppProps) => (
   <ThemeProvider

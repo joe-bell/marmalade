@@ -5,7 +5,7 @@ import { Head } from "../components/head";
 import { Stack } from "../components/stack";
 import PostList from "../components/post-list";
 import { LayoutRoot } from "./root";
-import * as Marmalade from "../types/marmalade";
+import * as Marmalade from "../types";
 // @ts-ignore
 import { frontMatter as posts } from "../pages/blog/*.{md,mdx}";
 

@@ -2,7 +2,7 @@
 import * as React from "react";
 import NextLink from "next/link";
 import { jsx, Grid, GridProps, Link, Text } from "theme-ui";
-import * as Marmalade from "../types/marmalade";
+import * as Marmalade from "../types";
 import { li } from "./reset";
 
 export type PostListProps = {

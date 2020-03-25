@@ -5,7 +5,7 @@ import { promisify } from "util";
 import path from "path";
 import matter from "gray-matter";
 import config from "../marmalade.config";
-import * as Marmalade from "../src/types/marmalade";
+import * as Marmalade from "../src/types";
 
 const DIR_PUBLIC = path.join(process.cwd(), "public");
 const DIR_CONTENT = "src/pages";

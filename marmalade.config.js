@@ -1,5 +1,5 @@
 /**
- * @type import('./src/types/marmalade').Config
+ * @type import('./src/types').Config
  */
 const config = {
   meta: {

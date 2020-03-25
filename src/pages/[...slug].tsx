@@ -8,7 +8,7 @@ import {
   generatePostsJSONFeed,
 } from "../../scripts";
 import LayoutPostIndex, { LayoutPostIndexProps } from "../layouts/post-index";
-import * as Marmalade from "../types/marmalade";
+import * as Marmalade from "../types";
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import { frontMatter as pages } from "../pages/**/*.{md,mdx}";

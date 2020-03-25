@@ -4,7 +4,7 @@ import { Container, Heading } from "theme-ui";
 import { Head } from "../components/head";
 import { Stack } from "../components/stack";
 import { LayoutRoot } from "./root";
-import * as Marmalade from "../types/marmalade";
+import * as Marmalade from "../types";
 import PostList from "../components/post-list";
 
 export type LayoutPostIndexProps = {
