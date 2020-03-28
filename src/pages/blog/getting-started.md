@@ -1,15 +1,12 @@
 ---
-title: "Post One"
+title: "Getting Started"
 layout: "post"
-date: "2020-03-04"
-summary: "Ille et arboreis criminibusque Ulixe dea astra"
+date: "2020-03-28"
+summary: "Learn how to get up and running with Marmalade."
 tags:
-  - lifestyle
-  - movies
+  - css
   - design
 ---
-
-# Ille et arboreis criminibusque Ulixe dea astra
 
 ## Rursus gestae diros altus moenia sibi tori
 

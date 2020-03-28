@@ -1,40 +1,48 @@
 import * as React from "react";
-import { Box, Container } from "theme-ui";
+import NextLink from "next/link";
+import { Badge, Box, Container, Heading, Text } from "theme-ui";
 import { Head } from "../components/head";
 import { Stack } from "../components/stack";
 import { LayoutRoot } from "./root";
+import { Inline } from "../components/inline";
+import * as Marmalade from "../types";
 
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-/* eslint-disable react/display-name */
-
-// @ts-ignore
-export default frontMatter => {
-  // @ts-ignore
-  return ({ children }) => {
-    console.log(frontMatter);
-    return (
-      <>
-        <Head title={frontMatter.title || "Blog"} />
-        <LayoutRoot>
-          <Container as="aside">
-            <p>Blog Layout</p>
+const LayoutPost: Marmalade.Layout = frontMatter => ({ children }) => (
+  <>
+    <Head title={frontMatter.title || "Blog"} />
+    <LayoutRoot>
+      <article>
+        {frontMatter.title && (
+          <Container>
+            <Heading as="h1" sx={{ fontSize: [5, 6], fontWeight: "display" }}>
+              {frontMatter.title}
+            </Heading>
           </Container>
-          <article>
-            {frontMatter.title && (
-              <Container>
-                <Box as="h1">
-                  <h1>{frontMatter.title}</h1>
-                </Box>
-              </Container>
-            )}
-            {children && (
-              <Container>
-                <Stack>{children}</Stack>
-              </Container>
-            )}
-          </article>
-        </LayoutRoot>
-      </>
-    );
-  };
-};
+        )}
+        {children && (
+          <Container>
+            <Stack>{children}</Stack>
+          </Container>
+        )}
+      </article>
+      <Container as="footer" py={5}>
+        <Text>Filed under:</Text>
+        {frontMatter.tags && (
+          <Inline as="ul" gap={2}>
+            {frontMatter.tags.map((tag: string) => (
+              <Box as="li" key={tag}>
+                <NextLink href={`./tag/${tag}`}>
+                  <Badge as="a" sx={{ cursor: "pointer" }}>
+                    {tag}
+                  </Badge>
+                </NextLink>
+              </Box>
+            ))}
+          </Inline>
+        )}
+      </Container>
+    </LayoutRoot>
+  </>
+);
+
+export default LayoutPost;

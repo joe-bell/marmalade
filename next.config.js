@@ -5,9 +5,7 @@ const exportPathMap = async (
   defaultPathMap,
   { dev, dir, outDir, distDir, buildId }
 ) => {
-  // @TODO Passthrough static assets.
-  // @TODO Generate and add manifest.
-  // @TODO Add JSON/RSS feed.
+  // @TODO Passthrough static assets
 
   return defaultPathMap;
 };
@@ -15,6 +13,16 @@ const exportPathMap = async (
 const nextConfig = {
   pageExtensions: ["ts", "tsx"],
   exportPathMap,
+  // @TODO Investigate
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.node = {
+        fs: "empty",
+      };
+    }
+
+    return config;
+  },
 };
 
 module.exports = withMdxEnhanced({

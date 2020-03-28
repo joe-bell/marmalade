@@ -26,6 +26,10 @@ const config = {
       url: "/blog",
     },
     {
+      title: "Misc",
+      url: "/misc",
+    },
+    {
       title: "Twitter",
       url: "https://twitter.com/joebell_",
       external: true,
@@ -36,8 +40,8 @@ const config = {
       external: true,
     },
   ],
-  homePostsDir: "blog",
-  rssPostsDir: "src/pages/blog",
+  rssPosts: ["src/pages/blog"],
+  homePosts: ["src/pages/blog"],
 };
 
 module.exports = config;

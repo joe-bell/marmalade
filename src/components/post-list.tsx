@@ -12,6 +12,7 @@ export type PostListProps = {
 const PostList = React.forwardRef<any, PostListProps>(
   ({ posts, sx, ...props }, ref) => (
     <Grid
+      // Oh my dog I hate refs
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       ref={ref}
@@ -20,8 +21,8 @@ const PostList = React.forwardRef<any, PostListProps>(
       sx={{ padding: 0, ...li.listStyleTypeNone, ...(sx && sx) }}
       {...props}
     >
-      {posts.map(post => (
-        <li key={post.title}>
+      {posts.map((post, i) => (
+        <li key={i}>
           <NextLink href={post.__path}>
             <Link sx={{ fontWeight: "bold", fontSize: 3 }}>{post.title}</Link>
           </NextLink>

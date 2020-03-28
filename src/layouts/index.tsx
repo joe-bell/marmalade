@@ -7,7 +7,6 @@ import { LayoutRoot } from "./root";
 import * as Marmalade from "../types";
 
 const LayoutDefault: Marmalade.Layout = () => {
-  // @ts-ignore
   return ({ children }) => {
     return (
       <>

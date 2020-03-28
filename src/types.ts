@@ -32,12 +32,12 @@ export type Config = {
    * Pages directory used to generate the RSS feed, e.g. 'blog'.
    * If empty, the feed will output all MDX pages as posts.
    */
-  rssPostsDir?: string | string[];
+  rssPosts?: string | string[];
   /**
    * Pages directory used to generate the posts on the home template.
    * If empty, the feed will output all MDX pages as posts.
    */
-  homePostsDir?: string | string[];
+  homePosts?: string | string[];
   attribution?: boolean;
 };
 

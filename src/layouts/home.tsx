@@ -1,36 +1,34 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import * as React from "react";
 import { Container, Heading } from "theme-ui";
+import { filterByDir } from "../../scripts";
+import config from "../../marmalade.config";
 import { Head } from "../components/head";
 import { Stack } from "../components/stack";
 import PostList from "../components/post-list";
-import { LayoutRoot } from "./root";
 import * as Marmalade from "../types";
+import { LayoutRoot } from "./root";
 // @ts-ignore
-import { frontMatter as posts } from "../pages/blog/*.{md,mdx}";
+import { frontMatter as mdxPages } from "../pages/**/*.{md,mdx}";
 
-const LayoutHome: Marmalade.Layout = frontMatter =>
-  // @ts-ignore
-  ({ children, ...props }) => {
-    console.log(frontMatter);
+const posts = filterByDir(mdxPages, config.homePosts);
 
-    return (
-      <>
-        <Head />
-        <LayoutRoot>
-          <Head />
-          <Container paddingTop={3} paddingBottom={6}>
-            <Stack>
-              {children && children}
-              <Heading as="h2" mt={4}>
-                Latest Posts
-              </Heading>
-              <PostList columns={[1, 2]} posts={posts} />
-            </Stack>
-          </Container>
-        </LayoutRoot>
-      </>
-    );
-  };
+const LayoutHome: Marmalade.Layout = () => ({ children }) => (
+  <>
+    <Head />
+    <LayoutRoot>
+      <Container paddingTop={3} paddingBottom={6}>
+        <Stack>
+          {children && children}
+          <Heading as="h2" mt={4}>
+            Latest Posts
+          </Heading>
+          {/* @TODO Filter by latest, filter by glob defined in config? */}
+          <PostList columns={[1, 2]} posts={posts} />
+        </Stack>
+      </Container>
+    </LayoutRoot>
+  </>
+);
 
 export default LayoutHome;

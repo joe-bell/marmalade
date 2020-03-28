@@ -3,19 +3,16 @@ import fs from "fs";
 import _glob from "glob";
 import { promisify } from "util";
 import path from "path";
-import matter from "gray-matter";
 import config from "../marmalade.config";
 import * as Marmalade from "../src/types";
 
+const DIR_RSS = config.rssPosts || "src/pages";
 const DIR_PUBLIC = path.join(process.cwd(), "public");
 const DIR_CONTENT = "src/pages";
 
 // =============================================================================
 // Utils
 // =============================================================================
-
-const isEmpty = (arr: unknown[]) =>
-  !Array.isArray(arr) || !arr.length ? true : false;
 
 const sanitizeArray = (arr: string[]) =>
   arr.filter((value: string, index: number) => arr.indexOf(value) === index);
@@ -29,7 +26,7 @@ export const extendFrontMatter = (
   frontMatter: Marmalade.FrontMatter
 ): Marmalade.FrontMatterCustom => {
   // Paths
-  // ---------------------------------------------------------------------------
+  // ----------------------------------
 
   // Get the current working directory and strip the leading slash.
   const _cwd = process.cwd().replace(/^(\/)/, "");
@@ -60,7 +57,7 @@ export const extendFrontMatter = (
   }`;
 
   // Date
-  // ---------------------------------------------------------------------------
+  // ----------------------------------
 
   const dateString = frontMatter.date
     ? new Date(frontMatter.date).toLocaleDateString("en-GB", {
@@ -79,108 +76,16 @@ export const extendFrontMatter = (
 };
 
 // =============================================================================
-// File Get
+// getPaths
 // =============================================================================
-
-type GetFiles = (glob: string) => Promise<any[] | []>;
-
-export const getFiles: GetFiles = async glob => {
-  try {
-    const files = await promisify(_glob)(`${DIR_CONTENT}/${glob}`);
-
-    if (isEmpty(files)) {
-      throw new Error(`🚨 No files found matching: ${glob}`);
-    }
-
-    return files.map(file => {
-      const content = fs.readFileSync(file, "utf8");
-      const { data } = matter(content);
-
-      const _fileName = path.basename(file, path.extname(file));
-
-      const root = DIR_CONTENT.split(path.sep);
-      const dir = path
-        .dirname(file)
-        .split(path.sep)
-        .slice(root.length);
-
-      const src = [...root, ...dir, _fileName];
-
-      const nextPath =
-        _fileName === "index"
-          ? path.join(...dir)
-          : path.join(...dir, _fileName);
-
-      return Object.assign(data, {
-        root,
-        dir,
-        src,
-        path: nextPath,
-      });
-    });
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
-};
-
-export const getFilesByLatest: GetFiles = async glob => {
-  try {
-    const files = await getFiles(glob);
-
-    if (isEmpty(files)) {
-      throw new Error(`🚨 No files found matching: ${glob}`);
-    }
-
-    // Check if pages in the specified glob contain the date property.
-    const filesContainDate = files.every(file => file.date);
-
-    return filesContainDate
-      ? // I *might* fix this
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore
-        files.sort((a, b) => new Date(b.date) - new Date(a.date))
-      : files;
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
-};
-
-export const getMDXPostsByLatest = async () => {
-  const rssGlob = !config.rssPostsDir
-    ? "**/*.{md,mdx}"
-    : Array.isArray(config.rssPostsDir)
-    ? `{${config.rssPostsDir.join(",")}}/**/*.{md,mdx}`
-    : `${config.rssPostsDir}/**/*.{md,mdx}`;
-
-  try {
-    const files = await getFilesByLatest(rssGlob);
-
-    if (isEmpty(files)) {
-      throw new Error(`🚨 No posts found matching: ${config.rssPostsDir}`);
-    }
-
-    return files.filter(
-      // Only return files from the defined pages directory, and ignore custom
-      // index pages
-      post => post.dir.length !== 0 && post.src.pop() !== "index"
-    );
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
-};
 
 export const getAllTagsPaths = async (
   pagesFrontMatter: Marmalade.FrontMatterExtended[]
 ) => {
-  const paths = pagesFrontMatter // Get only paths that contain `tags`
+  const paths = pagesFrontMatter
     .filter(post => post.tags)
-    // Map through each tag and convert into a tag root path (without src/pages)
+    // Map through each tag and convert into a next path (without src/pages)
     .map(post =>
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
       post.tags?.map(tag => path.join("/", ...post.__dir, "tag", tag))
     )
     // I'll solve this later, maybe?
@@ -191,20 +96,20 @@ export const getAllTagsPaths = async (
   return sanitizeArray(paths);
 };
 
+const shouldCreateIndex = (srcDir: string[]): boolean => {
+  // We don't want files from the root pages directory
+  if (srcDir.length === 0) {
+    return false;
+  }
+
+  const indexFile = path.join(DIR_CONTENT, ...srcDir, "index.*");
+
+  return _glob.sync(indexFile).length === 0 ? true : false;
+};
+
 export const getAllIndexPaths = async (
   pagesFrontMatter: Marmalade.FrontMatterExtended[]
 ) => {
-  const shouldCreateIndex = (srcDir: string[]): boolean => {
-    // We don't want files from the root pages directory
-    if (srcDir.length === 0) {
-      return false;
-    }
-
-    const indexFile = path.join(DIR_CONTENT, ...srcDir, "index.*");
-
-    return _glob.sync(indexFile).length === 0 ? true : false;
-  };
-
   const indexPaths = pagesFrontMatter
     .filter(post => shouldCreateIndex(post.__dir))
     .map(post => `/${path.join(...post.__dir)}`);
@@ -213,26 +118,50 @@ export const getAllIndexPaths = async (
 };
 
 // =============================================================================
-// File Generation
+// Filter
 // =============================================================================
 
-// =======================
-
-type FilterPagesByLatest = (
+export type FilterByDate = (
   pagesFrontMatter: Marmalade.FrontMatterExtended[]
 ) => Marmalade.FrontMatterExtended[];
 
-const filterPagesByLatest: FilterPagesByLatest = pagesFrontMatter => {
-  // Check if pages in the specified glob contain the date property.
-  const pagesContainDate = pagesFrontMatter.every(file => file.date);
-
-  return pagesContainDate
+export const filterByDate: FilterByDate = pagesFrontMatter =>
+  pagesFrontMatter.every(file => file.date)
     ? // I *might* fix this
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       pagesFrontMatter.sort((a, b) => new Date(b.date) - new Date(a.date))
     : pagesFrontMatter;
+
+export type FilterByDir = (
+  pagesFrontMatter: Marmalade.FrontMatterExtended[],
+  dirname?: string | string[]
+) => Marmalade.FrontMatterExtended[];
+
+export const filterByDir: FilterByDir = (posts, dirName = "src/pages") => {
+  const dirNames = Array.isArray(dirName) ? dirName : [dirName];
+
+  const filtered = posts.filter(
+    post =>
+      // Ignore files in the root directory
+      post.__dir.length > 0 &&
+      // Include files that match the defined directories
+      dirNames
+        .map(dir => (post.__resourcePath.includes(dir) ? true : false))
+        .includes(true) &&
+      // Ignore index files
+      !post.__resourcePath
+        .split(path.sep)
+        .pop()
+        ?.includes("index")
+  );
+
+  return filterByDate(filtered);
 };
+
+// =============================================================================
+// File Generation
+// =============================================================================
 
 export const generatePostsJSONFeed = async (
   pagesFrontMatter: Marmalade.FrontMatterExtended[]
@@ -240,23 +169,7 @@ export const generatePostsJSONFeed = async (
   const fileName = "feed.json";
   const filePath = path.join(DIR_PUBLIC, fileName);
 
-  const postsDir = Array.isArray(config.rssPostsDir)
-    ? config.rssPostsDir
-    : [config.rssPostsDir];
-
-  // Filter posts that the directory matches ones defined in rsspostsDir
-
-  const posts = filterPagesByLatest(pagesFrontMatter)
-    .filter(
-      // Only return files from the defined pages directory, and ignore custom
-      // index pages
-      post =>
-        post.__dir.length !== 0 &&
-        post.__resourcePath.split(path.sep).pop() !== "index"
-    )
-    .filter(post =>
-      postsDir.map(postDir => postDir && post.__resourcePath.includes(postDir))
-    );
+  const posts = filterByDir(pagesFrontMatter, DIR_RSS);
 
   const feed = {
     version: "https://jsonfeed.org/version/1",
@@ -295,7 +208,9 @@ export const generatePostsJSONFeed = async (
   return promisify(fs.writeFile)(filePath, JSON.stringify(feed, null, 2))
     .then(() =>
       console.log(
-        `✅ RSS feed created for "${postsDir.join(", ")}" at: ${filePath}`
+        `✅ RSS feed created for "${
+          Array.isArray(DIR_RSS) ? DIR_RSS.join(", ") : DIR_RSS
+        }" at: ${filePath}`
       )
     )
     .catch(err => console.error(err));

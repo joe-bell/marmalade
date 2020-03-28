@@ -65,13 +65,14 @@ export const Inline = React.forwardRef<any, InlineProps>(
           overflow: "hidden",
           justifyContent: "flex-start",
           alignItems: "center",
+          paddingLeft: 0,
           margin: theme =>
             responsiveInlineMargin({ gap, negative: true })(theme),
-          "& > *": {
+          "&& > *": {
             margin: theme => responsiveInlineMargin({ gap })(theme),
           },
           /* Ensure direct child list-items render without bullets */
-          "& > li": li.listStyleTypeNone,
+          "&& > li": li.listStyleTypeNone,
           ...(sx && sx),
         },
       },

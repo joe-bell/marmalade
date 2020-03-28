@@ -6,6 +6,7 @@ import {
   getAllIndexPaths,
   generateManifest,
   generatePostsJSONFeed,
+  filterByDir,
 } from "../../scripts";
 import LayoutPostIndex, { LayoutPostIndexProps } from "../layouts/post-index";
 import * as Marmalade from "../types";
@@ -40,9 +41,7 @@ export const getStaticProps: GetStaticProps<IndexPageProps> = async context => {
   const slugPath = Array.isArray(slug) ? `/${slug.join("/")}` : `/${slug}`;
 
   if (indexPaths.includes(slugPath)) {
-    const posts = pages.filter((page: Marmalade.FrontMatterExtended) =>
-      page.__resourcePath.includes(`src/pages${slugPath}`)
-    );
+    const posts = filterByDir(pages, `src/pages${slugPath}`);
 
     return {
       props: {
@@ -54,12 +53,10 @@ export const getStaticProps: GetStaticProps<IndexPageProps> = async context => {
 
   if (tagsPaths.includes(slugPath)) {
     const tagIndex = slug.indexOf("tag");
-    const tagDirIndex = (tagIndex - 1) % slug.length;
-    const tagNameIndex = (tagIndex + 1) % slug.length;
-    const tagDir = slug[tagDirIndex];
-    const tagName = slug[tagNameIndex];
+    const tagDir = slug[(tagIndex - 1) % slug.length];
+    const tagName = slug[(tagIndex + 1) % slug.length];
 
-    const posts = pages.filter(
+    const posts = filterByDir(pages, `src/pages/${tagDir}`).filter(
       (post: Marmalade.FrontMatterExtended) =>
         post.tags && post.tags.includes(tagName)
     );
