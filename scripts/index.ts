@@ -6,9 +6,9 @@ import path from "path";
 import config from "../marmalade.config";
 import * as Marmalade from "../src/types";
 
-const DIR_RSS = config.rssPosts || "src/pages";
-const DIR_PUBLIC = path.join(process.cwd(), "public");
 const DIR_CONTENT = "src/pages";
+const DIR_RSS = config.rssPosts || DIR_CONTENT;
+const DIR_PUBLIC = path.join(process.cwd(), "public");
 
 // =============================================================================
 // Utils
@@ -138,7 +138,7 @@ export type FilterByDir = (
   dirname?: string | string[]
 ) => Marmalade.FrontMatterExtended[];
 
-export const filterByDir: FilterByDir = (posts, dirName = "src/pages") => {
+export const filterByDir: FilterByDir = (posts, dirName = DIR_CONTENT) => {
   const dirNames = Array.isArray(dirName) ? dirName : [dirName];
 
   const filtered = posts.filter(

@@ -33,15 +33,10 @@
     "*.{js,jsx,ts,tsx}": "npm run lint"
   },
   "dependencies": {
-    "@mdx-js/loader": "1.5.7",
-    "@mdx-js/mdx": "1.5.7",
-    "@mdx-js/react": "1.5.7",
-    "@next/mdx": "9.3.1",
     "glob": "7.1.6",
-    "gray-matter": "4.0.2",
-    "next": "9.3.1",
+    "next": "9.3.2",
     "next-mdx-enhanced": "^2.4.0",
-    "polished": "3.5.0",
+    "polished": "3.5.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "theme-ui": "0.3.1"
@@ -49,11 +44,11 @@
   "devDependencies": {
     "@babel/cli": "7.8.4",
     "@types/glob": "7.1.1",
-    "@types/node": "13.9.2",
-    "@types/react": "16.9.25",
+    "@types/node": "13.9.5",
+    "@types/react": "16.9.27",
     "@types/theme-ui": "0.3.1",
-    "@typescript-eslint/eslint-plugin": "2.24.0",
-    "@typescript-eslint/parser": "2.24.0",
+    "@typescript-eslint/eslint-plugin": "2.25.0",
+    "@typescript-eslint/parser": "2.25.0",
     "babel-plugin-import-glob-array": "^0.2.0",
     "commitizen": "4.0.3",
     "concurrently": "5.1.0",
@@ -64,10 +59,9 @@
     "eslint-plugin-prettier": "3.1.2",
     "eslint-plugin-react": "7.19.0",
     "husky": "4.2.3",
-    "lint-staged": "10.0.8",
+    "lint-staged": "10.0.9",
     "prettier": "1.19.1",
     "rimraf": "3.0.2",
-    "stringify-object": "3.3.0",
     "typescript": "3.8.3"
   }
 }
