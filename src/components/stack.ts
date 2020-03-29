@@ -5,7 +5,6 @@ import { li } from "./reset";
 
 export type StackProps = BoxProps & Pick<GridProps, "gap">;
 
-// `forwardRef` a sticky issue:
 // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/35834#issuecomment-497445051
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Stack = React.forwardRef<any, StackProps>(
@@ -21,12 +20,11 @@ export const Stack = React.forwardRef<any, StackProps>(
            * Otherwise, fallback to the lobotomized owl selector to style children.
            */
           "@supports (grid-gap: 0)": {
-            /* eslint-disable @typescript-eslint/ban-ts-ignore */
+            /* Theme UI's types don't seem to like me doing this */
             // @ts-ignore
             display: "grid",
             // @ts-ignore
             gridGap: gap,
-            /* eslint-enable @typescript-eslint/ban-ts-ignore */
           },
           "@supports not (grid-gap: 0)": {
             "& > * + *": {

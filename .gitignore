@@ -9,6 +9,7 @@ public/manifest.webmanifest
 // Next Builds
 .next
 out
+.mdx-data
 
 // Next Env (See types.d.ts)
 next-env.d.ts

@@ -1,10 +1,13 @@
 import * as React from "react";
-import { LayoutDefault } from "../layouts/layouts";
+import { Container, Text } from "theme-ui";
+import LayoutRoot from "../layouts/root";
 
 const About: React.FC = () => (
-  <LayoutDefault title="About">
-    <p>This is the about page</p>
-  </LayoutDefault>
+  <LayoutRoot>
+    <Container>
+      <Text>This is the about page</Text>
+    </Container>
+  </LayoutRoot>
 );
 
 export default About;

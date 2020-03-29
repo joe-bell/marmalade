@@ -2,13 +2,13 @@
 
 # marmalade 🍊
 
-Another opinionated **JAM**stack starter with static optimization, featuring:
+Another opinionated **JAM**stack starter with static optimization.
 
-- **Theme-UI**
-- **TypeScript**
-- **MDX** (extended to support front matter and custom layouts)
+Powered by [**Next.js**](https://nextjs.org), featuring:
 
-**Powered by [Next.js](https://nextjs.org)**.
+- [**Theme-UI**](https://theme-ui.com/)
+- [**MDX**](https://mdxjs.com/) ([next-mdx-enhanced](https://github.com/hashicorp/next-mdx-enhanced))
+- [**TypeScript**](https://typescriptlang.org/)
 
 ## Roadmap
 

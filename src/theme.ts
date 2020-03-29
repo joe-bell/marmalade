@@ -75,8 +75,9 @@ export default {
       letterSpacing: "-0.03em",
     },
   },
-  sizes: {
-    container: 768,
+  container: {
+    px: 3,
+    maxWidth: 768,
   },
   styles: {
     root: {

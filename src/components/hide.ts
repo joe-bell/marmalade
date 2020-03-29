@@ -7,7 +7,7 @@ export type HideProps = {
   hideVisually?: boolean;
   hideCompletely?: boolean;
 } & BoxProps;
-// `forwardRef` a sticky issue:
+
 // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/35834#issuecomment-497445051
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Hide = React.forwardRef<any, HideProps>(

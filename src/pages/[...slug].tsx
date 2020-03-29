@@ -2,26 +2,31 @@ import * as React from "react";
 import { GetStaticProps, GetStaticPaths, NextPage } from "next";
 import Error from "next/error";
 import {
-  getFilesByLatest,
   getAllTagsPaths,
   getAllIndexPaths,
+  generateManifest,
+  generatePostsJSONFeed,
+  filterByDir,
 } from "../../scripts";
-import { Layouts } from "../layouts/layouts";
-import { FrontMatterExtended } from "../types/marmalade";
+import LayoutPostIndex, { LayoutPostIndexProps } from "../layouts/post-index";
+// https://github.com/jescalan/babel-plugin-import-glob-array/issues/7
+// @ts-ignore
+import { frontMatter as pages } from "../pages/**/*.{md,mdx}";
+
+const tagsPaths = getAllTagsPaths(pages);
+const indexPaths = getAllIndexPaths(pages);
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const tagsPaths = await getAllTagsPaths();
-  const indexPaths = await getAllIndexPaths();
+  // Generate Assets
+  await generateManifest();
+  await generatePostsJSONFeed(pages);
 
   const paths = [...tagsPaths, ...indexPaths];
 
   return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps<IndexPageProps> = async context => {
-  const tagsPaths = await getAllTagsPaths();
-  const indexPaths = await getAllIndexPaths();
-
+export const getStaticProps: GetStaticProps<CatchAllPageProps> = async context => {
   const errorProps = { props: { error: true } };
 
   if (!context.params || !context.params.slug) {
@@ -32,64 +37,43 @@ export const getStaticProps: GetStaticProps<IndexPageProps> = async context => {
   const slugPath = Array.isArray(slug) ? `/${slug.join("/")}` : `/${slug}`;
 
   if (indexPaths.includes(slugPath)) {
-    try {
-      const posts = await getFilesByLatest(`${slugPath}/**/*.{md,mdx}`);
+    const posts = filterByDir(pages, `src/pages${slugPath}`);
 
-      return {
-        props: {
-          title: `${slug}`,
-          posts,
-        },
-      };
-    } catch (err) {
-      console.error(err);
-      return errorProps;
-    }
+    return {
+      props: {
+        title: `${slug}`,
+        posts,
+      },
+    };
   }
 
   if (tagsPaths.includes(slugPath)) {
     const tagIndex = slug.indexOf("tag");
-    const tagDirIndex = (tagIndex - 1) % slug.length;
-    const tagNameIndex = (tagIndex + 1) % slug.length;
-    const tagDir = slug[tagDirIndex];
-    const tagName = slug[tagNameIndex];
+    const tagDir = slug[(tagIndex - 1) % slug.length];
+    const tagName = slug[(tagIndex + 1) % slug.length];
 
-    try {
-      const files = await getFilesByLatest(`/${tagDir}/**/*.{md,mdx}`);
+    const posts = filterByDir(pages, `src/pages/${tagDir}`).filter(
+      post => post.tags && post.tags.includes(tagName)
+    );
 
-      const posts = files.filter(
-        post => post.tags && post.tags.includes(tagName)
-      );
-
-      return {
-        props: {
-          title: `${tagDir} posts filed under "${tagName}"`,
-          posts,
-        },
-      };
-    } catch (err) {
-      console.error(err);
-      return errorProps;
-    }
+    return {
+      props: {
+        title: `${tagDir} posts filed under "${tagName}"`,
+        posts,
+      },
+    };
   }
 
   return errorProps;
 };
 
-type IndexPageProps = {
+type CatchAllPageProps = {
   error?: boolean;
-  posts?: FrontMatterExtended[];
-};
+} & LayoutPostIndexProps;
 
-const IndexPage: React.FC<IndexPageProps & NextPage> = ({
+const CatchAllPage: React.FC<CatchAllPageProps & NextPage> = ({
   error,
   ...props
-}) => {
-  return error ? (
-    <Error statusCode={404} />
-  ) : (
-    <Layouts layout="index" {...props} />
-  );
-};
+}) => (error ? <Error statusCode={404} /> : <LayoutPostIndex {...props} />);
 
-export default IndexPage;
+export default CatchAllPage;

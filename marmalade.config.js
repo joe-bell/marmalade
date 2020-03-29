@@ -1,5 +1,5 @@
 /**
- * @type import('./src/types/marmalade').Config
+ * @type import('./src/types').Config
  */
 const config = {
   meta: {
@@ -26,6 +26,10 @@ const config = {
       url: "/blog",
     },
     {
+      title: "Misc",
+      url: "/misc",
+    },
+    {
       title: "Twitter",
       url: "https://twitter.com/joebell_",
       external: true,
@@ -36,7 +40,9 @@ const config = {
       external: true,
     },
   ],
-  rssDir: "blog",
+  rssPosts: ["src/pages/blog"],
+  homePosts: ["src/pages/blog"],
+  copyright: "© 2020 Joe Bell",
 };
 
 module.exports = config;
