@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import fs from "fs";
 import _glob from "glob";
 import { promisify } from "util";
@@ -79,7 +78,7 @@ export const extendFrontMatter = (
 // getPaths
 // =============================================================================
 
-export const getAllTagsPaths = async (
+export const getAllTagsPaths = (
   pagesFrontMatter: Marmalade.FrontMatterExtended[]
 ) => {
   const paths = pagesFrontMatter
@@ -88,8 +87,7 @@ export const getAllTagsPaths = async (
     .map(post =>
       post.tags?.map(tag => path.join("/", ...post.__dir, "tag", tag))
     )
-    // I'll solve this later, maybe?
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @TODO Fix when undefined.
     // @ts-ignore
     .flat();
 
@@ -107,7 +105,7 @@ const shouldCreateIndex = (srcDir: string[]): boolean => {
   return _glob.sync(indexFile).length === 0 ? true : false;
 };
 
-export const getAllIndexPaths = async (
+export const getAllIndexPaths = (
   pagesFrontMatter: Marmalade.FrontMatterExtended[]
 ) => {
   const indexPaths = pagesFrontMatter
@@ -127,8 +125,7 @@ export type FilterByDate = (
 
 export const filterByDate: FilterByDate = pagesFrontMatter =>
   pagesFrontMatter.every(file => file.date)
-    ? // I *might* fix this
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    ? // @TODO Fix when undefined
       // @ts-ignore
       pagesFrontMatter.sort((a, b) => new Date(b.date) - new Date(a.date))
     : pagesFrontMatter;
@@ -162,6 +159,9 @@ export const filterByDir: FilterByDir = (posts, dirName = DIR_CONTENT) => {
 // =============================================================================
 // File Generation
 // =============================================================================
+
+/* Allow for camel_case variables in manifest/JSON feed */
+/* eslint-disable @typescript-eslint/camelcase */
 
 export const generatePostsJSONFeed = async (
   pagesFrontMatter: Marmalade.FrontMatterExtended[]

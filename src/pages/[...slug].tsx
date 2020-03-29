@@ -9,16 +9,15 @@ import {
   filterByDir,
 } from "../../scripts";
 import LayoutPostIndex, { LayoutPostIndexProps } from "../layouts/post-index";
-import * as Marmalade from "../types";
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// https://github.com/jescalan/babel-plugin-import-glob-array/issues/7
 // @ts-ignore
 import { frontMatter as pages } from "../pages/**/*.{md,mdx}";
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const tagsPaths = await getAllTagsPaths(pages);
-  const indexPaths = await getAllIndexPaths(pages);
+const tagsPaths = getAllTagsPaths(pages);
+const indexPaths = getAllIndexPaths(pages);
 
-  // Generate Assets which require pages
+export const getStaticPaths: GetStaticPaths = async () => {
+  // Generate Assets
   await generateManifest();
   await generatePostsJSONFeed(pages);
 
@@ -27,10 +26,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps<IndexPageProps> = async context => {
-  const tagsPaths = await getAllTagsPaths(pages);
-  const indexPaths = await getAllIndexPaths(pages);
-
+export const getStaticProps: GetStaticProps<CatchAllPageProps> = async context => {
   const errorProps = { props: { error: true } };
 
   if (!context.params || !context.params.slug) {
@@ -57,8 +53,7 @@ export const getStaticProps: GetStaticProps<IndexPageProps> = async context => {
     const tagName = slug[(tagIndex + 1) % slug.length];
 
     const posts = filterByDir(pages, `src/pages/${tagDir}`).filter(
-      (post: Marmalade.FrontMatterExtended) =>
-        post.tags && post.tags.includes(tagName)
+      post => post.tags && post.tags.includes(tagName)
     );
 
     return {
@@ -72,21 +67,13 @@ export const getStaticProps: GetStaticProps<IndexPageProps> = async context => {
   return errorProps;
 };
 
-type IndexPageProps = {
+type CatchAllPageProps = {
   error?: boolean;
 } & LayoutPostIndexProps;
 
-const IndexPage: React.FC<IndexPageProps & NextPage> = ({
+const CatchAllPage: React.FC<CatchAllPageProps & NextPage> = ({
   error,
   ...props
-}) => {
-  return error ? (
-    <Error statusCode={404} />
-  ) : (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
-    <LayoutPostIndex {...props} />
-  );
-};
+}) => (error ? <Error statusCode={404} /> : <LayoutPostIndex {...props} />);
 
-export default IndexPage;
+export default CatchAllPage;

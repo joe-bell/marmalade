@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import * as React from "react";
 import { Container } from "theme-ui";
 import { Head } from "../components/head";
 import { Stack } from "../components/stack";
-import { LayoutRoot } from "./root";
 import * as Marmalade from "../types";
+import LayoutRoot from "./root";
 
 const LayoutDefault: Marmalade.Layout = () => {
   return ({ children }) => {

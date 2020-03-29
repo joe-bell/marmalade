@@ -9,11 +9,12 @@ export type PostListProps = {
   posts: Marmalade.Posts;
 } & GridProps;
 
+// https://github.com/DefinitelyTyped/DefinitelyTyped/issues/35834#issuecomment-497445051
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PostList = React.forwardRef<any, PostListProps>(
   ({ posts, sx, ...props }, ref) => (
     <Grid
       // Oh my dog I hate refs
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       ref={ref}
       as="ol"

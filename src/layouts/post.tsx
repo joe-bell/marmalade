@@ -3,9 +3,9 @@ import NextLink from "next/link";
 import { Badge, Box, Container, Heading, Text } from "theme-ui";
 import { Head } from "../components/head";
 import { Stack } from "../components/stack";
-import { LayoutRoot } from "./root";
 import { Inline } from "../components/inline";
 import * as Marmalade from "../types";
+import LayoutRoot from "./root";
 
 const LayoutPost: Marmalade.Layout = frontMatter => ({ children }) => (
   <>

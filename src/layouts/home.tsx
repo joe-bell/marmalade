@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import * as React from "react";
 import { Container, Heading } from "theme-ui";
 import { filterByDir } from "../../scripts";
@@ -7,7 +6,8 @@ import { Head } from "../components/head";
 import { Stack } from "../components/stack";
 import PostList from "../components/post-list";
 import * as Marmalade from "../types";
-import { LayoutRoot } from "./root";
+import LayoutRoot from "./root";
+// https://github.com/jescalan/babel-plugin-import-glob-array/issues/7
 // @ts-ignore
 import { frontMatter as mdxPages } from "../pages/**/*.{md,mdx}";
 
