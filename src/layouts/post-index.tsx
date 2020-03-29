@@ -7,7 +7,7 @@ import PostList from "../components/post-list";
 import LayoutRoot from "./root";
 
 export type LayoutPostIndexProps = {
-  posts?: Marmalade.Posts;
+  posts?: Marmalade.MDXPages;
   title?: string;
 };
 

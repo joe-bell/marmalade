@@ -6,7 +6,7 @@ import * as Marmalade from "../types";
 import { li } from "./reset";
 
 export type PostListProps = {
-  posts: Marmalade.Posts;
+  posts: Marmalade.MDXPages;
 } & GridProps;
 
 // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/35834#issuecomment-497445051
