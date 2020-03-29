@@ -19,24 +19,25 @@ Powered by [**Next.js**](https://nextjs.org), featuring:
 - [x] ~~🏁 ESLint, Prettier and commit tools~~.
 - [ ] 🧱 Components
   - [x] ~~Stack~~
-  - [x] ~~Inline~~
-  - [ ] ~~Header~~
+  - [x] Inline
+  - [ ] Header
+  - [ ] Footer
 - [ ] 🏗 Layouts
   - [ ] Home (move the README).
   - [ ] Default
   - [ ] Blog
   - [ ] Blog Posts (index/tags)
-  - [ ] Use dynamic imports in `Layouts`
 - [ ] 🔎 Scripts
   - [x] ~~Get files~~
   - [x] ~~Get files by latest.~~
-  - [ ] Get files by tag.
-  - [ ] Prettify the date.
+  - [x] ~~Get files by tag.~~
+  - [x] ~~Prettify the date.~~
   - [x] ~~Pass through static files.~~ N/A use `public`.
   - [ ] Generate Favicons.
-  - [ ] Generate RSS.
+  - [x] ~~Generate RSS.~~
   - [x] ~~Generate JSONFeed.~~
   - [x] ~~Generate manifest.~~
+- [ ] 📚 Add Example Posts
 - [ ] 🖼 Image optimization.
   - or at least a guide to setup with Netlify LFS?
 - [ ] ⚡️ Performance audits and optimization.
@@ -45,14 +46,11 @@ Powered by [**Next.js**](https://nextjs.org), featuring:
 ### Later
 
 - [ ] 💬 Webmentions
-- [ ] 💧 Mimic 11ty cascading data?
-- [ ] 🔍 Better Type checking of front matter (which could be solved by the next item)
-- [ ] 🔩 Use MDX API with `getStaticProps()`
-- [ ] 🐞 Types for theme dot notation (e.g. colors).
+- [ ] 💧 Mimic 11ty cascading data? (e.g. `.json` file in folder to configure layouts for all pages)
+- [x] 🔍 Better Type checking of front matter
 - [ ] 🚇 Offline support.
-- [ ] ⚡️ Preact in production.
+- [x] ⚡️ Preact in production.
 - [ ] 📝 Netlify CMS.
-- [ ] 🎨 Extract Design System to separate project.
 
 ## Usage
 
