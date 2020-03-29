@@ -42,6 +42,7 @@ const config = {
   ],
   rssPosts: ["src/pages/blog"],
   homePosts: ["src/pages/blog"],
+  copyright: "© 2020 Joe Bell",
 };
 
 module.exports = config;
