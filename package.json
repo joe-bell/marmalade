@@ -8,7 +8,7 @@
   "keywords": [],
   "scripts": {
     "commit": "npx git-cz",
-    "dev": "concurrently \"npm:build:scripts\" \"next dev\"",
+    "dev": "npm run build:scripts && concurrently \"next dev\" \"npm:build:scripts -- -w\"",
     "build:scripts": "npx babel scripts/*.ts --out-file .marmalade/index.js",
     "build": "npm run build:scripts && next build",
     "production": "npm run clean && npm run build && next export",
