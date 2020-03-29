@@ -8,68 +8,50 @@ tags:
   - design
 ---
 
-## Rursus gestae diros altus moenia sibi tori
+## Installation
 
-Lorem markdownum _montis litora_ ancipitesque vero per ferenda, alterius
-referens! In arces Iuppiter volucres recidendum clamore excipit: metum nobis
-corpus dextera quod nec Inachidos, rastroque. Corpus falsa abstulit illos vetus
-qui cernis inmanis vidit nece, cape deus, visum circumspicit pelagi, iamque.
-_Marmoreum_ vix mentis multa suprema sideraque, magno si carinae.
+1. There are two options to choose from:
 
-> Centum sceleratior vana. Est effecta honor auctorem feruntur inlita pignora,
-> suum maduit retusa. Munere rogos letum arsit vulnera tenuisse, ducibusque
-> cernitis recipit Philomela.
+   1. [Generate a new repo](https://github.com/joe-bell/marmalade/generate) from this template repo, **or…**
+   2. Clone or fork this template repo:
+      ```sh
+      git clone git@github.com:joe-bell/marmalade.git
+      ```
 
-## Illam ensis suspicere transtulit movere tauri Latiae
+2. Install dependencies:
+   ```sh
+   npm i
+   ```
 
-Hoc flava quoque. Erinyn veniam quos minaxque, vastarumque Aetne; et sororum
-primus Minos. Ordo [cum nostris
-sic](http://illos-fuerunt.com/attonitos-saeva.aspx) Ismenides
-[genuere](http://subiecta.io/sic.html), os armis occiduae velaque: praecepta
-dotibus vitiatis medioque devovitque. Utque Helopsque stipite pectus.
+### Commands
 
-- Erat secuti
-- Feram Acoetes
-- Debent cum ille regia velamina mittor praecipitem
-- Penna felix
-- Mare lux repetunt haec in Quae si
-- Ardore gravior quo exstantibus undas pendentia aequora
+The following commands are available for use, prefixed with `npm run`:
 
-## Ante in numen Bienoris in veteris nostras
+- `dev` - spins up a hot-reloading development environment.
+- `production` - builds the application for production and [exports to static HTML](https://nextjs.org/learn/excel/static-html-export/export-the-index-page).
+- `start` - runs the Next.js production server.
+- `clean` - flushes `node_modules` and build directories.
 
-Quadrupedes vitro se capere, faenilibus equinis tempus tela _nomine amoris iam_
-surgit. Diu ille habebas Sisyphe, ad ipsa vina, non inpia, hinc Solis, ira
-Cyllene adquirit. Ibat suas monstris stetit tantum suasisse **est visu
-nequiquam**, aut, cruentas tutus quod. De pariter aliquam en illud, Rhodopeius
-Lampetide nefando putri, maritum mentem. Amando et exhausto malis!
+## Configuration
 
-    powerGif.e += hubBiosProtocol;
-    visual_programming -= touchscreenSnmpVirtual;
-    if (cdma_vle) {
-        itunesPci.requirementsDefinitionVdu = plugXsltCyberbullying.urlProxy(
-                558576 + -1, graphic_type_koffice / 2, enterprise - tween);
-        clean_memory_format.circuit_design += crm(dtd_pram(3, 1, cdma), -2);
-        utility.map(cpu_microphone, pptpArchieBeta + -3);
-    } else {
-        megabitSchemaDialog(textToken, 4);
-        adc = perlDtdSystem;
-    }
+For now, basic application info can be configured in [`marmalade.config.js`](./marmalade.config.js).
 
-## Et undis
+To configure the initial theme and components used to render MDX/Markdown, you'll need to customise the default [`_app.tsx`](./src/pages/_app.tsx) file.
 
-Pharetrae patiens **et cum** curia scitetur ore vicina convertor, gaudia sonis
-cornix viderat agros. Hunc velle, cornuque! Et iussos, superat opus est gerebat
-levi. Urbis ora liber Nox res infamia accipe, quod occubuisse **tandem**.
+## Architecture
 
-## Stridula vaticinos meam sine domesticus sospes crines
+- `src/`
 
-[Romam](http://issetsupersunt.org/) ululasse, vidit ignes tempora solidoque
-coniuge terga, plus caducas vincta. Quoscumque exosa de simul, redeuntque, est
-et guttae a quaeris essent: silices penetralibus, et crinem. Puppes media in
-esse vero traxit. Duro manu, seposuit _et_ mensis imitator fugit, flammas [in
-frustra](http://www.telo.org/quoque) quid. Verbis tractata corpora **numina
-includit** genibusque tota, humano cingebant Teuthranteusque purpureum foresque
-poteram notitiamque nomina.
+  - `pages/`
 
-Ut regna hoc tauros, unum nam durare Ausonia _tollit_. Signa **quae**; inpatiens
-vacuus? Et est Ammon eratis discedite ex tunc pulsat aras adiecit Graia!
+    Supports `.md`, `.mdx`, `.tsx` format.
+
+- `scripts/`
+
+  Node scripts used by the application and Next.js to generate things like index pages.
+
+  These scripts are also available for use in `next.config.js` under `.marmalade`.
+
+  > Unfortunately, Next.js doesn't currently support it's config in `.ts`. To workaround this, scripts are compiled to `.js` in `.marmalade` before build time.
+  >
+  > It's a hacky solution but I can't think of a better one for now.

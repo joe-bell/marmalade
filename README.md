@@ -1,106 +1,43 @@
-> **⚠️ THIS PROJECT IS EARLY WORK IN PROGRESS**
-
 # marmalade 🍊
 
 Another opinionated **JAM**stack starter with static optimization.
 
-Powered by [**Next.js**](https://nextjs.org), featuring:
+Powered by [**Next.js**](https://nextjs.org) and friends:
 
-- [**Theme-UI**](https://theme-ui.com/)
-- [**MDX**](https://mdxjs.com/) ([next-mdx-enhanced](https://github.com/hashicorp/next-mdx-enhanced))
-- [**Preact**](https://preactjs.com/)
-- [**TypeScript**](https://typescriptlang.org/)
+## Features
 
-## Roadmap
+- 🎨 [**Theme UI**](https://theme-ui.com/) (with a default theme)
+- 📝 [**MDX**](https://mdxjs.com/) (via [next-mdx-enhanced](https://github.com/hashicorp/next-mdx-enhanced))
+- ⚡️ [**Preact**](https://preactjs.com/)
+- 🔍 [**TypeScript**](https://typescriptlang.org/)
+- 🗂 Multiple "posts" directories (with index pages)
+- 🏷 Tagging (with index pages)
+- 📡 RSS feed generation
+- ⚙️ Manifest generation
+- 🍒 Extended front matter
+- 🚢 Deploy to [Netlify](https://netlify.com/) or your platform of choice
+- ⌨️ [ESLint](https://eslint.org/), [Prettier](https://prettier.io/) and [Commitizen](https://github.com/commitizen/cz-cli)
 
-### Immediate
+### To do
 
-- [x] ~~🎨 Theming Schema~~.
-- [x] ~~🏁 ESLint, Prettier and commit tools~~.
-- [ ] 🧱 Components
-  - [x] ~~Stack~~
-  - [x] Inline
-  - [ ] Header
-  - [ ] Footer
-- [ ] 🏗 Layouts
-  - [ ] Home (move the README).
-  - [ ] Default
-  - [ ] Blog
-  - [ ] Blog Posts (index/tags)
-- [ ] 🔎 Scripts
-  - [x] ~~Get files~~
-  - [x] ~~Get files by latest.~~
-  - [x] ~~Get files by tag.~~
-  - [x] ~~Prettify the date.~~
-  - [x] ~~Pass through static files.~~ N/A use `public`.
-  - [ ] Generate Favicons.
-  - [x] ~~Generate RSS.~~
-  - [x] ~~Generate JSONFeed.~~
-  - [x] ~~Generate manifest.~~
-- [ ] 📚 Add Example Posts
-- [ ] 🖼 Image optimization.
-  - or at least a guide to setup with Netlify LFS?
-- [ ] ⚡️ Performance audits and optimization.
-- [ ] ♿️ Accessibility testing and optimization.
+- ℹ️ Favicon generation (including updating the repo's meta info)
+- 🏗 Customisable layouts
+- 🧱 Customisable components (including a nicer dark mode button and less B&Q-esque theme)
+- 👷‍♀ GitHub Actions
+- 🧪 Tests (I know I'm sorry)
+- 🏆 Performance audits and optimisation
+- ♿️ Accessibility testing and optimisation
 
-### Later
+### Feature candidates
 
-- [ ] 💬 Webmentions
-- [ ] 💧 Mimic 11ty cascading data? (e.g. `.json` file in folder to configure layouts for all pages)
-- [x] 🔍 Better Type checking of front matter
-- [ ] 🚇 Offline support.
-- [x] ⚡️ Preact in production.
-- [ ] 📝 Netlify CMS.
+- 💬 Webmentions
+- 💧 Mimic 11ty cascading data? (e.g. `.json` file in folder to configure layouts for all pages)
+- 🚇 Offline support
+- 📝 Netlify CMS
 
-## Usage
+## Getting started
 
-### Installation
-
-1. There are two options to choose from:
-
-   1. [Generate a new repo](https://github.com/joe-bell/marmalade/generate) from this template repo, **or…**
-   2. Clone or fork this template repo:
-      ```sh
-      git clone git@github.com:joe-bell/marmalade.git
-      ```
-
-2. Install dependencies:
-   ```sh
-   npm i
-   ```
-
-### Commands
-
-The following commands are available for use, prefixed with `npm run`:
-
-- `dev` - spins up a hot-reloading development environment.
-- `production` - builds the application for production and [exports to static HTML](https://nextjs.org/learn/excel/static-html-export/export-the-index-page).
-- `start` - runs the Next.js production server.
-- `clean` - flushes `node_modules` and build directories.
-
-## Configuration
-
-For now, basic application info can be configured in [`marmalade.config.js`](./marmalade.config.js).
-
-To configure the initial theme and components used to render MDX/Markdown, you'll need to customise the default [`_app.tsx`](./src/pages/_app.tsx) file.
-
-## Architecture
-
-- `src/`
-
-  - `pages/`
-
-    Supports `.md`, `.mdx`, `.tsx` format.
-
-- `scripts/`
-
-  Node scripts used by the application and Next.js to generate things like index pages.
-
-  These scripts are also available for use in `next.config.js` under `.marmalade`.
-
-  > Unfortunately, Next.js doesn't currently support it's config in `.ts`. To workaround this, scripts are compiled to `.js` in `.marmalade` before build time.
-  >
-  > It's a hacky solution but I can't think of a better one for now.
+Head over to the ["Getting started" guide](https://marmalade.joebell.co.uk/blog/getting-started) on the demo site.
 
 ## Q&A
 
