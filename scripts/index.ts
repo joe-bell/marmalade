@@ -9,24 +9,27 @@ const DIR_CONTENT = "src/pages";
 const DIR_RSS = config.rssPosts || DIR_CONTENT;
 const DIR_PUBLIC = path.join(process.cwd(), "public");
 
-// =============================================================================
 // Utils
-// =============================================================================
+// ==========================
 
 const sanitizeArray = (arr: string[]) =>
   arr.filter((value: string, index: number) => arr.indexOf(value) === index);
 
-// =============================================================================
-// FrontMatter Extend
-// =============================================================================
+// Extend FrontMatter
+// ==========================
 
-export const extendFrontMatter = (
-  mdxContent: string,
-  frontMatter: Marmalade.FrontMatter
-): Marmalade.FrontMatterCustom => {
-  // Paths
-  // ----------------------------------
+const extendDate = (frontMatter: Marmalade.FrontMatter) =>
+  frontMatter.date
+    ? {
+        __dateString: new Date(frontMatter.date).toLocaleDateString("en-GB", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
+      }
+    : undefined;
 
+const extendFileDetails = (frontMatter: Marmalade.FrontMatter) => {
   // Get the current working directory and strip the leading slash.
   const _cwd = process.cwd().replace(/^(\/)/, "");
   // Strip the current working directory
@@ -55,35 +58,31 @@ export const extendFrontMatter = (
     _fileName === "index" ? dirPath : path.join(dirPath, _fileName)
   }`;
 
-  // Date
-  // ----------------------------------
-
-  const dateString = frontMatter.date
-    ? new Date(frontMatter.date).toLocaleDateString("en-GB", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : undefined;
-
   return {
     __dir: dir,
     __path: nextPath,
-    __wordCount: mdxContent.split(/\s+/g).length,
-    ...(dateString && { __dateString: dateString }),
   };
 };
+
+export const extendFrontMatter = (
+  mdxContent: string,
+  frontMatter: Marmalade.FrontMatter
+): Marmalade.FrontMatterCustom => ({
+  __wordCount: mdxContent.split(/\s+/g).length,
+  ...extendFileDetails(frontMatter),
+  ...extendDate(frontMatter),
+});
 
 // =============================================================================
 // getPaths
 // =============================================================================
 
+// Map through each tag and convert into a next path (i.e. without `src/pages`)
 export const getAllTagsPaths = (
   pagesFrontMatter: Marmalade.FrontMatterExtended[]
 ) => {
   const paths = pagesFrontMatter
     .filter(post => post.tags)
-    // Map through each tag and convert into a next path (without src/pages)
     .map(post =>
       post.tags?.map(tag => path.join("/", ...post.__dir, "tag", tag))
     )
@@ -115,9 +114,8 @@ export const getAllIndexPaths = (
   return sanitizeArray(indexPaths);
 };
 
-// =============================================================================
-// Filter
-// =============================================================================
+// Filters
+// ==========================
 
 export type FilterByDate = (
   pagesFrontMatter: Marmalade.FrontMatterExtended[]
@@ -156,11 +154,10 @@ export const filterByDir: FilterByDir = (posts, dirName = DIR_CONTENT) => {
   return filterByDate(filtered);
 };
 
-// =============================================================================
 // File Generation
-// =============================================================================
+// ==========================
 
-/* Allow for camel_case variables in manifest/JSON feed */
+/* Allow for camel_case variables in manifest/JSON files */
 /* eslint-disable @typescript-eslint/camelcase */
 
 export const generatePostsJSONFeed = async (
@@ -194,8 +191,6 @@ export const generatePostsJSONFeed = async (
         ...(post.date && { date_published: post.date }),
         ...(post.summary && {
           summary: post.summary,
-          // @TODO Revisit after Async API
-          // content_html: instead maybe?
           content_text: `${post.summary} - To read in full, please visit ${postUrl}.`,
         }),
         ...(post.image && { image: post.image }),
