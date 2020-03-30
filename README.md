@@ -1,3 +1,5 @@
+> ⚠️ **Please note this project is still a [work in progress](#to-do)**
+
 # marmalade 🍊
 
 Another opinionated **JAM**stack starter with static optimization.
