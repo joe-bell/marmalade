@@ -1,0 +1,5 @@
+/feed.json
+  Content-Type: "application/json"
+
+/manifest.webmanifest
+  Content-Type: "application/manifest+json"
