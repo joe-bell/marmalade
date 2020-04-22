@@ -1,9 +1,10 @@
 import * as React from "react";
 import NextLink from "next/link";
-import { Badge, Box, Container, Heading, Text } from "theme-ui";
+import { Badge, Container, Heading, Text } from "theme-ui";
+import Article from "../components/article";
 import { Head } from "../components/head";
-import { Stack } from "../components/stack";
-import { Inline } from "../components/inline";
+// @ts-ignore
+import { Wrap, Stack } from "raam";
 import * as Marmalade from "../types";
 import LayoutRoot from "./root";
 
@@ -21,24 +22,22 @@ const LayoutPost: Marmalade.Layout = frontMatter => ({ children }) => (
         )}
         {children && (
           <Container>
-            <Stack>{children}</Stack>
+            <Article>{children}</Article>
           </Container>
         )}
       </article>
       <Container as="footer" py={5}>
         <Text>Filed under:</Text>
         {frontMatter.tags && (
-          <Inline as="ul" gap={2}>
+          <Wrap as="ul" gap={2}>
             {frontMatter.tags.map((tag: string) => (
-              <Box as="li" key={tag}>
-                <NextLink href={`./tag/${tag}`}>
-                  <Badge as="a" sx={{ cursor: "pointer" }}>
-                    {tag}
-                  </Badge>
-                </NextLink>
-              </Box>
+              <NextLink key={tag} href={`./tag/${tag}`}>
+                <Badge as="a" sx={{ cursor: "pointer" }}>
+                  {tag}
+                </Badge>
+              </NextLink>
             ))}
-          </Inline>
+          </Wrap>
         )}
       </Container>
     </LayoutRoot>

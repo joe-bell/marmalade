@@ -1,7 +1,8 @@
 import * as React from "react";
 import { Container, Heading } from "theme-ui";
+import { Stack } from "raam";
+import Article from "../components/article";
 import { Head } from "../components/head";
-import { Stack } from "../components/stack";
 import * as Marmalade from "../types";
 import PostList from "../components/post-list";
 import LayoutRoot from "./root";
@@ -19,12 +20,10 @@ const LayoutPostIndex: React.FC<LayoutPostIndexProps> = ({
   <>
     <Head />
     <LayoutRoot>
-      <Container>
-        <Stack>
-          {title && <Heading as="h1">{title}</Heading>}
-          {children && children}
-          {posts && <PostList posts={posts} />}
-        </Stack>
+      <Container as={Stack}>
+        {title && <Heading as="h1">{title}</Heading>}
+        {children && <Article>{children}</Article>}
+        {posts && <PostList posts={posts} />}
       </Container>
     </LayoutRoot>
   </>

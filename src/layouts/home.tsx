@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Container, Heading } from "theme-ui";
+import { Stack } from "raam";
 import { filterByDir } from "../../scripts";
 import config from "../../marmalade.config";
+import Article from "../components/article";
 import { Head } from "../components/head";
-import { Stack } from "../components/stack";
 import PostList from "../components/post-list";
 import * as Marmalade from "../types";
 import LayoutRoot from "./root";
@@ -19,7 +20,7 @@ const LayoutHome: Marmalade.Layout = () => ({ children }) => (
     <LayoutRoot>
       <Container paddingTop={3} paddingBottom={6}>
         <Stack>
-          {children && children}
+          {children && <Article>{children}</Article>}
           <Heading as="h2" mt={4}>
             Latest Posts
           </Heading>

@@ -4,7 +4,10 @@ const heading = {
   lineHeight: "heading",
 };
 
+const space = [0, 4, 8, 16, 32, 64, 128, 256, 512];
+
 export default {
+  space,
   colors: {
     text: "hsl(10, 20%, 20%)",
     background: "hsl(10, 10%, 98%)",
