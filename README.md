@@ -1,4 +1,6 @@
-> ⚠️ **Please note this project is still a [work in progress](#to-do)**
+> ⚠️ **Update 21/06/2020:** I've left this project on the backburner for a bit whilst revamping [joebell.co.uk](joebell.co.uk/).    
+> I've changed strategy on a few things, but once I find the time I'll add them back.   
+> **This project is still a [work in progress](#to-do)**
 
 # marmalade 🍊
 
