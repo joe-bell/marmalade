@@ -2,7 +2,7 @@
   "private": true,
   "name": "@joebell/marmalade",
   "version": "0.0.1",
-  "author": "Joe Bell <joe@joebell.co.uk>",
+  "author": "Joe Bell (https://joebell.co.uk)",
   "license": "GNU GPLV3",
   "description": "Another opinionated JAMstack starter.",
   "keywords": [],
